@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Title: WordPres pay Charitable extension
+ * Title: Charitable extension
  * Description:
  * Copyright: Copyright (c) 2005 - 2015
  * Company: Pronamic
  * @author Remco Tolsma
- * @version 1.0.0
- * @since 1.0.0
+ * @version 1.1.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	/**
@@ -23,8 +22,16 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * Bootstrap
 	 */
 	public static function bootstrap() {
-		add_action( 'init', array( __CLASS__, 'init' ) );
+		new self();
+	}
 
+	/**
+	 * Construct and initializes an Charitable extension object.
+	 */ 
+	public function __construct() {
+		add_action( 'init', array( $this, 'init' ) );
+
+		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
 	}
 
 	//////////////////////////////////////////////////
@@ -32,20 +39,21 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	/**
 	 * Initialize
 	 */
-	public static function init() {
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( __CLASS__, 'source_text' ), 10, 2 );
+	public function init() {
+
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
-	 * Update lead status of the specified payment
+	 * Charitable payments gateways.
 	 *
-	 * @param Pronamic_Pay_Payment $payment
+	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateways.php#L44-L51
+	 * @param array $gateways
+	 * @retrun array
 	 */
-	public static function status_update( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
+	public function charitable_payment_gateways( $gateways ) {
+		$gateways['pronamic'] = 'Pronamic_WP_Pay_Extensions_Charitable_Gateway';
 
+		return $gateways;
 	}
 
 	//////////////////////////////////////////////////
@@ -57,6 +65,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		$text  = '';
 
 		$text .= __( 'Charitable', 'pronamic_ideal' ) . '<br />';
+
+		$text .= sprintf(
+			'<a href="%s">%s</a>',
+			get_edit_post_link( $payment->source_id ),
+			sprintf( __( 'Order %s', 'pronamic_ideal' ), $payment->source_id )
+		);
 
 		return $text;
 	}
