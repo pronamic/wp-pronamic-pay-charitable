@@ -14,7 +14,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	 *
 	 * @var string
 	 */
-	const ID = 'pronamic';
+	const ID = 'pronamic_pay';
 
 	/**
 	 * The payment method
@@ -36,38 +36,58 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 		);
 	}
 
-    /**
-     * Register gateway settings. 
-     *
-     * @param   array   $settings
-     * @return  array
-     * @since   1.0.0
-     */
-    public function gateway_settings( $settings ) {
-        $settings['config_id'] = array(
-            'type'      => 'select',
-            'title'     => __( 'Configuration', 'pronamic_ideal' ), 
-            'priority'  => 8,
-            'options'   => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
-        );
+	/**
+	 * Register gateway settings. 
+	 *
+	 * @param   array   $settings
+	 * @return  array
+	 * @since   1.0.0
+	 */
+	public function gateway_settings( $settings ) {
+		$settings['config_id'] = array(
+			'type'     => 'select',
+			'title'    => __( 'Configuration', 'pronamic_ideal' ), 
+			'priority' => 8,
+			'options'  => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
+		);
 
-        return $settings;
-    }
+		return $settings;
+	}
 
-    public static function process_donation( $donation_id, $processor ) {
-        var_dump( $donation_id );
-        exit;
-    }
+	public static function process_donation( $donation_id, $processor ) {
+		$gateway = new self();
 
-    /**
-     * Returns the current gateway's ID.  
-     *
-     * @return  string
-     * @access  public
-     * @static
-     * @since   1.0.3
-     */
-    public static function get_gateway_id() {
-        return self::ID;
-    }
+		$config_id = $gateway->get_value( 'config_id' );
+
+		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+
+		if ( $gateway ) {
+			// Data
+			$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor );
+
+			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data );
+
+			$error = $gateway->get_error();
+
+			if ( is_wp_error( $error ) ) {
+				var_dump( $error );
+				exit;
+			} else {
+				// Redirect
+				$gateway->redirect( $payment );
+			}
+		}
+	}
+
+	/**
+	 * Returns the current gateway's ID.  
+	 *
+	 * @return  string
+	 * @access  public
+	 * @static
+	 * @since   1.0.3
+	 */
+	public static function get_gateway_id() {
+		return self::ID;
+	}
 }
