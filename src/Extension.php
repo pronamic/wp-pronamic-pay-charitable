@@ -73,6 +73,60 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Update lead status of the specified payment
+	 *
+	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
+	 * @param Pronamic_Pay_Payment $payment
+	 */
+	public static function status_update( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
+		$donation_id = $payment->get_source_id();
+
+		$donation = new Charitable_Donation( $donation_id );
+
+		switch ( $payment->get_status() ) {
+			case Pronamic_WP_Pay_Statuses::CANCELLED :
+				$donation->update_status( 'charitable-pending' );
+
+				$url = home_url();
+
+				break;
+			case Pronamic_WP_Pay_Statuses::EXPIRED :
+				$donation->update_status( 'charitable-failed' );
+
+				$url = home_url();
+
+				break;
+			case Pronamic_WP_Pay_Statuses::FAILURE :
+				$donation->update_status( 'charitable-failed' );
+
+				$url = home_url();
+
+				break;
+			case Pronamic_WP_Pay_Statuses::SUCCESS :
+				$donation->update_status( 'charitable-completed' );
+
+				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
+
+				break;
+			case Pronamic_WP_Pay_Statuses::OPEN :
+			default:
+				$donation->update_status( 'charitable-pending' );
+
+				$url = home_url();
+
+				break;
+		}
+
+		if ( $can_redirect ) {
+			wp_redirect( $url );
+
+			exit;
+		}
+	}
+
+	//////////////////////////////////////////////////
+
+	/**
 	 * Source column
 	 */
 	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
