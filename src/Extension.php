@@ -66,7 +66,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			'Pronamic_WP_Pay_Extensions_Charitable_SofortGateway',
 		);
 
-		foreach ( $pronamic_gateways as $id => $class ) {
+		foreach ( $classes as $class ) {
 			$id = call_user_func( array( $class, 'get_gateway_id' ) );
 
 			$gateways[ $id ] = $class;
