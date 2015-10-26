@@ -55,12 +55,20 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * @retrun array
 	 */
 	public function charitable_payment_gateways( $gateways ) {
-		$pronamic_gateways = array(
-			'pronamic_pay'       => 'Pronamic_WP_Pay_Extensions_Charitable_Gateway',
-			'pronamic_pay_ideal' => 'Pronamic_WP_Pay_Extensions_Charitable_IDealGateway',
+		$classes = array(
+			'Pronamic_WP_Pay_Extensions_Charitable_Gateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_CreditCardGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_IDealGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_MiniTixGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway',
+			'Pronamic_WP_Pay_Extensions_Charitable_SofortGateway',
 		);
 
 		foreach ( $pronamic_gateways as $id => $class ) {
+			$id = call_user_func( array( $class, 'get_gateway_id' ) );
+
 			$gateways[ $id ] = $class;
 
 			// @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
