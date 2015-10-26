@@ -41,7 +41,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
      *
      * @param   array   $settings
      * @return  array
-     * @access  public
      * @since   1.0.0
      */
     public function gateway_settings( $settings ) {
