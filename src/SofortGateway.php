@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_SofortGateway extends Pronamic_WP_Pa
 		$this->name = __( 'SOFORT Banking', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'SOFORT Banking', 'pronamic_ideal' )
+			'label' => __( 'SOFORT Banking', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::SOFORT;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

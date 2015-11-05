@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway extends Pronamic_
 		$this->name = __( 'Direct Debit', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'Direct Debit', 'pronamic_ideal' )
+			'label' => __( 'Direct Debit', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

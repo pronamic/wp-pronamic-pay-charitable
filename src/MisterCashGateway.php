@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_W
 		$this->name = __( 'Bancontact/Mister Cash', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'Bancontact/Mister Cash', 'pronamic_ideal' )
+			'label' => __( 'Bancontact/Mister Cash', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::MISTER_CASH;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

@@ -123,23 +123,23 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	//////////////////////////////////////////////////
 
 	public function get_email() {
-		return $this->user_data[ 'email' ];
+		return $this->user_data['email'];
 	}
 
 	public function getCustomerName() {
-		return $this->user_data[ 'first_name' ] . ' ' . $this->user_data[ 'last_name' ];
+		return $this->user_data['first_name'] . ' ' . $this->user_data['last_name'];
 	}
 
 	public function getOwnerAddress() {
-		return $this->user_data[ 'address' ];
+		return $this->user_data['address'];
 	}
 
 	public function getOwnerCity() {
-		return $this->user_data[ 'city' ];
+		return $this->user_data['city'];
 	}
 
 	public function getOwnerZip() {
-		return $this->user_data[ 'postcode' ];
+		return $this->user_data['postcode'];
 	}
 
 	//////////////////////////////////////////////////

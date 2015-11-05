@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_CreditCardGateway extends Pronamic_W
 		$this->name = __( 'Credit Card', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'Credit Card', 'pronamic_ideal' )
+			'label' => __( 'Credit Card', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

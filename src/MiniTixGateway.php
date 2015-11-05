@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_MiniTixGateway extends Pronamic_WP_P
 		$this->name = __( 'MiniTix', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'MiniTix', 'pronamic_ideal' )
+			'label' => __( 'MiniTix', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::MINITIX;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

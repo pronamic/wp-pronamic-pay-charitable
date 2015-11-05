@@ -27,14 +27,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 		$this->name = __( 'iDEAL', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'iDEAL', 'pronamic_ideal' )
+			'label' => __( 'iDEAL', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::IDEAL;
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public

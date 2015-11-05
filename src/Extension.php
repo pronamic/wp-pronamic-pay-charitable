@@ -27,7 +27,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 	/**
 	 * Construct and initializes an Charitable extension object.
-	 */ 
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 

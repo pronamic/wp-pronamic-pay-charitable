@@ -32,12 +32,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 		$this->name = __( 'Pronamic', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'Pronamic', 'pronamic_ideal' )
+			'label' => __( 'Pronamic', 'pronamic_ideal' ),
 		);
 	}
 
 	/**
-	 * Register gateway settings. 
+	 * Register gateway settings.
 	 *
 	 * @param   array   $settings
 	 * @return  array
@@ -46,7 +46,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	public function gateway_settings( $settings ) {
 		$settings['config_id'] = array(
 			'type'     => 'select',
-			'title'    => __( 'Configuration', 'pronamic_ideal' ), 
+			'title'    => __( 'Configuration', 'pronamic_ideal' ),
 			'priority' => 8,
 			'options'  => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
 		);
@@ -69,10 +69,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 
 			$error = $gateway->get_error();
 
-			if ( is_wp_error( $error ) ) {
-				var_dump( $error );
-				exit;
-			} else {
+			if ( ! is_wp_error( $error ) ) {
 				// Redirect
 				$gateway->redirect( $payment );
 			}
@@ -80,7 +77,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	}
 
 	/**
-	 * Returns the current gateway's ID.  
+	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public
