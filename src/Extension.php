@@ -62,7 +62,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			'Pronamic_WP_Pay_Extensions_Charitable_CreditCardGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_IDealGateway',
-			'Pronamic_WP_Pay_Extensions_Charitable_MiniTixGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_SofortGateway',
 		);
