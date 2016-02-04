@@ -3,10 +3,11 @@
 /**
  * Title: Charitable extension
  * Description:
- * Copyright: Copyright (c) 2005 - 2015
+ * Copyright: Copyright (c) 2005 - 2016
  * Company: Pronamic
+ *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Extension {
@@ -62,7 +63,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			'Pronamic_WP_Pay_Extensions_Charitable_CreditCardGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_IDealGateway',
-			'Pronamic_WP_Pay_Extensions_Charitable_MiniTixGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway',
 			'Pronamic_WP_Pay_Extensions_Charitable_SofortGateway',
 		);

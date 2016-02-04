@@ -3,8 +3,9 @@
 /**
  * Title: WordPress pay Charitable payment data
  * Description:
- * Copyright: Copyright (c) 2005 - 2015
+ * Copyright: Copyright (c) 2005 - 2016
  * Company: Pronamic
+ *
  * @author Remco Tolsma
  * @version 1.0.0
  * @since 1.0.0
@@ -147,7 +148,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	//////////////////////////////////////////////////
 
 	/**
-	 * Get normal return URL
+	 * Get normal return URL.
+	 *
 	 * @see https://github.com/woothemes/woocommerce/blob/v2.1.3/includes/abstracts/abstract-wc-payment-gateway.php#L52
 	 * @return string
 	 */

@@ -7,7 +7,11 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.0.1] - 2016-02-04
+- Removed discontinued MiniTix gateway
+
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.0.0...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/wp-pay-extensions/charitable/compare/1.0.0...1.0.1
