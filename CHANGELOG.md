@@ -5,7 +5,10 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
--
+- Add support for payment methods and issuer dropdown
+- Use charitable-cancelled status for cancelled payments
+- Fix incorrect gateway configuration being used
+- Fix default label for Bank Transfer gateway
 
 ## [1.0.1] - 2016-02-04
 - Removed discontinued MiniTix gateway
