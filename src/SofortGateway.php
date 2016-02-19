@@ -36,6 +36,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_SofortGateway extends Pronamic_WP_Pa
 	}
 
 	/**
+	 * Process donation.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function process_donation( $donation_id, $processor, $gateway = null ) {
+		parent::process_donation( $donation_id, $processor, get_class() );
+	}
+
+	/**
 	 * Returns the current gateway's ID.
 	 *
 	 * @return  string

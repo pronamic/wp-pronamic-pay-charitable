@@ -94,7 +94,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 		switch ( $payment->get_status() ) {
 			case Pronamic_WP_Pay_Statuses::CANCELLED :
-				$donation->update_status( 'charitable-pending' );
 				$donation->update_status( 'charitable-cancelled' );
 
 				$url = home_url();

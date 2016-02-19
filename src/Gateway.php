@@ -56,8 +56,20 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 		return $settings;
 	}
 
-	public static function process_donation( $donation_id, $processor ) {
-		$gateway = new self();
+	/**
+	 * Process donation.
+	 *
+	 * @param   int                            $donation_id
+	 * @param   Charitable_Donation_Processor  $processor
+	 * @param   string                         $gateway
+	 * @since   1.0.0
+	 */
+	public static function process_donation( $donation_id, $processor, $gateway = null ) {
+		if ( null === $gateway ) {
+			$gateway = new self();
+		} else {
+			$gateway = new $gateway();
+		}
 
 		$config_id = $gateway->get_value( 'config_id' );
 
