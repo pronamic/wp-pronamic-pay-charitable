@@ -45,6 +45,43 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	}
 
 	/**
+	 * Form gateway fields.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function form_gateway_fields( $fields, $gateway ) {
+		if ( get_class() === get_class( $gateway ) ) {
+			$payment_method = $gateway->payment_method;
+
+			$config_id = $gateway->get_value( 'config_id' );
+
+			$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+
+			if ( $gateway ) {
+				$gateway->set_payment_method( $payment_method );
+
+				$fields['pronamic-pay-input-html'] = array(
+					'type' => '',
+					'gateway' => $gateway,
+				);
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Form gateway field template.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function form_field_template( $arg, $field, $form, $index ) {
+		if( 'pronamic-pay-input-html' === $field['key'] ) {
+			echo $field['gateway']->get_input_html();
+		}
+	}
+
+	/**
 	 * Returns the current gateway's ID.
 	 *
 	 * @return  string

@@ -71,6 +71,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			$gateway = new $gateway();
 		}
 
+		$payment_method = $gateway->payment_method;
+
 		$config_id = $gateway->get_value( 'config_id' );
 
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
@@ -79,7 +81,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			// Data
 			$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor );
 
-			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data );
+			$gateway->set_payment_method( $payment_method );
+
+			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, $payment_method );
 
 			$error = $gateway->get_error();
 
