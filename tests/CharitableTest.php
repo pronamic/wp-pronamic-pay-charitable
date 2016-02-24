@@ -10,11 +10,11 @@
  * @version 1.0.0
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_CharitableTest {
+class Pronamic_WP_Pay_Extensions_Charitable_CharitableTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * Test.
+	 * Test class.
 	 */
-	public function test() {
+	public function test_class() {
 		$this->assertTrue( class_exists( 'Pronamic_WP_Pay_Extensions_Charitable_Charitable' ) );
 	}
 }
