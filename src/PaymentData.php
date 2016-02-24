@@ -127,19 +127,19 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 		return $this->user_data['email'];
 	}
 
-	public function getCustomerName() {
+	public function get_customer_name() {
 		return $this->user_data['first_name'] . ' ' . $this->user_data['last_name'];
 	}
 
-	public function getOwnerAddress() {
+	public function get_address() {
 		return $this->user_data['address'];
 	}
 
-	public function getOwnerCity() {
+	public function get_city() {
 		return $this->user_data['city'];
 	}
 
-	public function getOwnerZip() {
+	public function get_zip() {
 		return $this->user_data['postcode'];
 	}
 
