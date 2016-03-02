@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 1.0.2
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
@@ -36,12 +36,21 @@ class Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway extends Pronamic_
 	}
 
 	/**
+	 * Process donation.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function process_donation( $donation_id, $processor, $gateway = null ) {
+		parent::process_donation( $donation_id, $processor, get_class() );
+	}
+
+	/**
 	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
 	 * @access  public
 	 * @static
-	 * @since   1.0.3
+	 * @since   1.0.1
 	 */
 	public static function get_gateway_id() {
 		return self::ID;

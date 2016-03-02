@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 1.0.2
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
@@ -33,6 +33,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_W
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::MISTER_CASH;
+	}
+
+	/**
+	 * Process donation.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function process_donation( $donation_id, $processor, $gateway = null ) {
+		parent::process_donation( $donation_id, $processor, get_class() );
 	}
 
 	/**

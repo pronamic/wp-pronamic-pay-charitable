@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 1.0.2
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
@@ -29,10 +29,19 @@ class Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway extends Pronamic
 		$this->name = __( 'Bank Transfer', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'iDEAL', 'pronamic_ideal' ),
+			'label' => __( 'Bank Transfer', 'pronamic_ideal' ),
 		);
 
 		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANK_TRANSFER;
+	}
+
+	/**
+	 * Process donation.
+	 *
+	 * @since   1.0.2
+	 */
+	public static function process_donation( $donation_id, $processor, $gateway = null ) {
+		parent::process_donation( $donation_id, $processor, get_class() );
 	}
 
 	/**
