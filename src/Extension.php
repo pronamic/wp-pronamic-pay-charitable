@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.2
+ * @version 1.0.3
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Extension {
@@ -87,6 +87,27 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Get the default return URL.
+	 *
+	 * @since 1.0.3
+	 * @param Charitable_Donation $donation
+	 * @return string URL
+	 */
+	private static function get_return_url( $donation ) {
+		$url = home_url();
+
+		$campaign = reset( $donation->get_campaign_donations() );
+
+		if ( false !== $campaign ) {
+			$url = get_permalink( $campaign->campaign_id );
+		}
+
+		return $url;
+	}
+
+	//////////////////////////////////////////////////
+
+	/**
 	 * Update lead status of the specified payment
 	 *
 	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
@@ -97,23 +118,19 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 		$donation = new Charitable_Donation( $donation_id );
 
+		$url = self::get_return_url( $donation );
+
 		switch ( $payment->get_status() ) {
 			case Pronamic_WP_Pay_Statuses::CANCELLED :
 				$donation->update_status( 'charitable-cancelled' );
-
-				$url = home_url();
 
 				break;
 			case Pronamic_WP_Pay_Statuses::EXPIRED :
 				$donation->update_status( 'charitable-failed' );
 
-				$url = home_url();
-
 				break;
 			case Pronamic_WP_Pay_Statuses::FAILURE :
 				$donation->update_status( 'charitable-failed' );
-
-				$url = home_url();
 
 				break;
 			case Pronamic_WP_Pay_Statuses::SUCCESS :
@@ -125,8 +142,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			case Pronamic_WP_Pay_Statuses::OPEN :
 			default:
 				$donation->update_status( 'charitable-pending' );
-
-				$url = home_url();
 
 				break;
 		}

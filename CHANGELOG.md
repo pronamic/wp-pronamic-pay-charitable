@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
--
+- Changed the default return URL to the campaign URL.
 
 ## [1.0.2] - 2016-03-02
 - Add support for payment methods and issuer dropdown
