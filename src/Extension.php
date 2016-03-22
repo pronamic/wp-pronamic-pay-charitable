@@ -35,7 +35,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10, 2 );
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( __CLASS__, 'source_text' ), 10, 2 );
 
 	}
@@ -105,6 +106,30 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		return $url;
 	}
 
+	/**
+	 * Payment redirect URL filter.
+	 *
+	 * @param string                  $url
+	 * @param Pronamic_WP_Pay_Payment $payment
+	 * @return string
+	 */
+	public static function payment_redirect_url( $url, $payment ) {
+		$donation_id = $payment->get_source_id();
+
+		$donation = new Charitable_Donation( $donation_id );
+
+		$url = self::get_return_url( $donation );
+
+		switch ( $payment->get_status() ) {
+			case Pronamic_WP_Pay_Statuses::SUCCESS :
+				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
+
+				break;
+		}
+
+		return $url;
+	}
+
 	//////////////////////////////////////////////////
 
 	/**
@@ -113,12 +138,10 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
 	 * @param Pronamic_Pay_Payment $payment
 	 */
-	public static function status_update( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
+	public static function status_update( Pronamic_Pay_Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
-
-		$url = self::get_return_url( $donation );
 
 		switch ( $payment->get_status() ) {
 			case Pronamic_WP_Pay_Statuses::CANCELLED :
@@ -136,20 +159,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			case Pronamic_WP_Pay_Statuses::SUCCESS :
 				$donation->update_status( 'charitable-completed' );
 
-				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
-
 				break;
 			case Pronamic_WP_Pay_Statuses::OPEN :
 			default:
 				$donation->update_status( 'charitable-pending' );
 
 				break;
-		}
-
-		if ( $can_redirect ) {
-			wp_redirect( $url );
-
-			exit;
 		}
 	}
 
