@@ -113,7 +113,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * @param Pronamic_WP_Pay_Payment $payment
 	 * @return string
 	 */
-	public static function payment_redirect_url( $url, $payment ) {
+	public static function redirect_url( $url, $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
