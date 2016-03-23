@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.2
+ * @version 1.0.3
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Extension {
@@ -35,7 +35,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
 
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10, 2 );
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( __CLASS__, 'source_text' ), 10, 2 );
 
 	}
@@ -87,12 +88,57 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Get the default return URL.
+	 *
+	 * @since 1.0.3
+	 * @param Charitable_Donation $donation
+	 * @return string URL
+	 */
+	private static function get_return_url( $donation ) {
+		$url = home_url();
+
+		$campaign = reset( $donation->get_campaign_donations() );
+
+		if ( false !== $campaign ) {
+			$url = get_permalink( $campaign->campaign_id );
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Payment redirect URL filter.
+	 *
+	 * @param string                  $url
+	 * @param Pronamic_WP_Pay_Payment $payment
+	 * @return string
+	 */
+	public static function redirect_url( $url, $payment ) {
+		$donation_id = $payment->get_source_id();
+
+		$donation = new Charitable_Donation( $donation_id );
+
+		$url = self::get_return_url( $donation );
+
+		switch ( $payment->get_status() ) {
+			case Pronamic_WP_Pay_Statuses::SUCCESS :
+				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
+
+				break;
+		}
+
+		return $url;
+	}
+
+	//////////////////////////////////////////////////
+
+	/**
 	 * Update lead status of the specified payment
 	 *
 	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
 	 * @param Pronamic_Pay_Payment $payment
 	 */
-	public static function status_update( Pronamic_Pay_Payment $payment, $can_redirect = false ) {
+	public static function status_update( Pronamic_Pay_Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
@@ -101,40 +147,24 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			case Pronamic_WP_Pay_Statuses::CANCELLED :
 				$donation->update_status( 'charitable-cancelled' );
 
-				$url = home_url();
-
 				break;
 			case Pronamic_WP_Pay_Statuses::EXPIRED :
 				$donation->update_status( 'charitable-failed' );
-
-				$url = home_url();
 
 				break;
 			case Pronamic_WP_Pay_Statuses::FAILURE :
 				$donation->update_status( 'charitable-failed' );
 
-				$url = home_url();
-
 				break;
 			case Pronamic_WP_Pay_Statuses::SUCCESS :
 				$donation->update_status( 'charitable-completed' );
-
-				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
 
 				break;
 			case Pronamic_WP_Pay_Statuses::OPEN :
 			default:
 				$donation->update_status( 'charitable-pending' );
 
-				$url = home_url();
-
 				break;
-		}
-
-		if ( $can_redirect ) {
-			wp_redirect( $url );
-
-			exit;
 		}
 	}
 
