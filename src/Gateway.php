@@ -51,6 +51,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			'title'    => __( 'Configuration', 'pronamic_ideal' ),
 			'priority' => 8,
 			'options'  => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
+			'default'  => get_option( 'pronamic_pay_config_id' ),
 		);
 
 		return $settings;
