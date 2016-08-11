@@ -54,6 +54,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			'default'  => get_option( 'pronamic_pay_config_id' ),
 		);
 
+		$settings['transaction_description'] = array(
+			'type'     => 'text',
+			'title'    => __( 'Transaction description', 'pronamic_ideal' ),
+			'priority' => 8,
+			'default'  => __( 'Charitable donation {donation_id}', 'pronamic_ideal' ),
+			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code>', '{donation_id}' ) ),
+		);
+
 		return $settings;
 	}
 
@@ -65,22 +73,22 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	 * @param   string                         $gateway
 	 * @since   1.0.0
 	 */
-	public static function process_donation( $donation_id, $processor, $gateway = null ) {
-		if ( null === $gateway ) {
-			$gateway = new self();
+	public static function process_donation( $donation_id, $processor, $charitable_gateway = null ) {
+		if ( null === $charitable_gateway ) {
+			$charitable_gateway = new self();
 		} else {
-			$gateway = new $gateway();
+			$charitable_gateway = new $charitable_gateway();
 		}
 
-		$payment_method = $gateway->payment_method;
+		$payment_method = $charitable_gateway->payment_method;
 
-		$config_id = $gateway->get_value( 'config_id' );
+		$config_id = $charitable_gateway->get_value( 'config_id' );
 
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
 			// Data
-			$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor );
+			$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor, $charitable_gateway );
 
 			$gateway->set_payment_method( $payment_method );
 
