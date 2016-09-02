@@ -75,10 +75,13 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	 *
 	 * @since   1.0.2
 	 */
-	public static function form_field_template( $arg, $field, $form, $index ) {
+	public static function form_field_template( $template, $field, $form, $index ) {
 		if ( 'pronamic-pay-input-html' === $field['key'] ) {
 			echo $field['gateway']->get_input_html();
+			return;
 		}
+
+		return $template;
 	}
 
 	/**
