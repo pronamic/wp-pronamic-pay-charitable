@@ -185,7 +185,16 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	}
 
 	public function get_cancel_url() {
-		return home_url();
+		$cancel_url = charitable_get_permalink( 'donation_cancel_page', array( 'donation_id' => $this->donation_id ) );
+
+		if ( ! $cancel_url ) {
+			$cancel_url = esc_url_raw( add_query_arg( array(
+				'donation_id' => $this->donation_id,
+				'cancel'      => true,
+			), wp_get_referer() ) );
+		}
+
+		return $cancel_url;
 	}
 
 	public function get_success_url() {
@@ -193,6 +202,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	}
 
 	public function get_error_url() {
-		return home_url();
+		$cancel_url = charitable_get_permalink( 'donation_cancel_page', array( 'donation_id' => $this->donation_id ) );
+
+		if ( ! $cancel_url ) {
+			$cancel_url = esc_url_raw( add_query_arg( array(
+				'donation_id' => $this->donation_id,
+				'cancel'      => true,
+			), wp_get_referer() ) );
+		}
+
+		return $cancel_url;
 	}
 }
