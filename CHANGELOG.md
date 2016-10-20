@@ -7,7 +7,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
-## [1.0.5] - 2016-10-19
+## [1.0.5] - 2016-10-20
 - Added cancel URL.
 - Added Pronamic gateway usage clarification
 - Added transaction description setting.

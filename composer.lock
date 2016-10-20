@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b9a831940257276ead78ccaaaf9c38a9",
-    "content-hash": "8e0e7900971e01a96651a875ae98ae8c",
+    "hash": "45b09613ccd4e62c189660b2db5bfe32",
+    "content-hash": "d530f9148b77a7d51eaaacc1961831e3",
     "packages": [
         {
             "name": "composer/installers",
@@ -116,16 +116,16 @@
         },
         {
             "name": "wp-pay/core",
-            "version": "1.3.8",
+            "version": "1.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-pay/core.git",
-                "reference": "a4a9b9e07da0a5d68b75f01748fc9de1928723da"
+                "reference": "3378c22e267d00e43a8b8658532ac6a2012c1e19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-pay/core/zipball/a4a9b9e07da0a5d68b75f01748fc9de1928723da",
-                "reference": "a4a9b9e07da0a5d68b75f01748fc9de1928723da",
+                "url": "https://api.github.com/repos/wp-pay/core/zipball/3378c22e267d00e43a8b8658532ac6a2012c1e19",
+                "reference": "3378c22e267d00e43a8b8658532ac6a2012c1e19",
                 "shasum": ""
             },
             "require": {
@@ -135,8 +135,8 @@
             "require-dev": {
                 "phpmd/phpmd": "^2.4",
                 "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "^2.6",
-                "wp-coding-standards/wpcs": "0.9.0"
+                "squizlabs/php_codesniffer": "^2.7",
+                "wp-coding-standards/wpcs": "0.10.0"
             },
             "type": "library",
             "autoload": {
@@ -172,7 +172,7 @@
                 "wordpress",
                 "wp"
             ],
-            "time": "2016-07-06 12:32:50"
+            "time": "2016-10-20 09:02:38"
         },
         {
             "name": "wpackagist-plugin/charitable",
