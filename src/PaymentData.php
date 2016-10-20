@@ -21,18 +21,31 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	 */
 	private $processor;
 
+	/**
+	 * Gateway
+	 */
+	private $gateway;
+
+	/**
+	 * User data
+	 */
+	private $user_data;
+
 	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initializes an Charitable payment data object.
 	 *
+	 * @param $donation_id
 	 * @param mixed $processor
+	 * @param $gateway
 	 */
-	public function __construct( $donation_id, $processor ) {
+	public function __construct( $donation_id, $processor, $gateway ) {
 		parent::__construct();
 
 		$this->donation_id = $donation_id;
 		$this->processor   = $processor;
+		$this->gateway     = $gateway;
 
 		$this->user_data = $processor->get_donation_data_value( 'user' );
 	}
@@ -66,7 +79,21 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	 * @return string
 	 */
 	public function get_description() {
-		return sprintf( __( 'Charitable donation %s', 'pronamic_ideal' ), $this->get_order_id() );
+		$search = array(
+			'{donation_id}',
+		);
+
+		$replace = array(
+			$this->get_order_id(),
+		);
+
+		$description = $this->gateway->get_value( 'transaction_description' );
+
+		if ( '' === $description ) {
+			$description = $this->get_title();
+		}
+
+		return str_replace( $search, $replace, $description );
 	}
 
 	/**
@@ -158,7 +185,16 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	}
 
 	public function get_cancel_url() {
-		return home_url();
+		$cancel_url = charitable_get_permalink( 'donation_cancel_page', array( 'donation_id' => $this->donation_id ) );
+
+		if ( ! $cancel_url ) {
+			$cancel_url = esc_url_raw( add_query_arg( array(
+				'donation_id' => $this->donation_id,
+				'cancel'      => true,
+			), wp_get_referer() ) );
+		}
+
+		return $cancel_url;
 	}
 
 	public function get_success_url() {
@@ -166,6 +202,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	}
 
 	public function get_error_url() {
-		return home_url();
+		$cancel_url = charitable_get_permalink( 'donation_cancel_page', array( 'donation_id' => $this->donation_id ) );
+
+		if ( ! $cancel_url ) {
+			$cancel_url = esc_url_raw( add_query_arg( array(
+				'donation_id' => $this->donation_id,
+				'cancel'      => true,
+			), wp_get_referer() ) );
+		}
+
+		return $cancel_url;
 	}
 }

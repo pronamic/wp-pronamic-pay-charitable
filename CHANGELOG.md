@@ -7,6 +7,13 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.0.5] - 2016-10-20
+- Added cancel URL.
+- Added Pronamic gateway usage clarification
+- Added transaction description setting.
+- Make use of new Bancontact label and constant.
+- Ensure that the filter returns a value to avoid breaking other Charitable extensions that implement their own custom templates for certain form fields.
+
 ## [1.0.4] - 2016-04-12
 - Set global WordPress gateway config as default config in gateways.
 
@@ -26,7 +33,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.0.4...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.0.5...HEAD
+[1.0.5]: https://github.com/wp-pay-extensions/charitable/compare/1.0.4...1.0.5
 [1.0.4]: https://github.com/wp-pay-extensions/charitable/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/wp-pay-extensions/charitable/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/wp-pay-extensions/charitable/compare/1.0.1...1.0.2

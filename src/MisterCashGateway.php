@@ -26,13 +26,13 @@ class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_W
 	public function __construct() {
 		parent::__construct();
 
-		$this->name = __( 'Bancontact/Mister Cash', 'pronamic_ideal' );
+		$this->name = __( 'Bancontact', 'pronamic_ideal' );
 
 		$this->defaults = array(
-			'label' => __( 'Bancontact/Mister Cash', 'pronamic_ideal' ),
+			'label' => __( 'Bancontact', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::MISTER_CASH;
+		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANCONTACT;
 	}
 
 	/**
