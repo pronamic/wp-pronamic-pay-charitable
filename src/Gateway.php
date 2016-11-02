@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.4
+ * @version 1.1.0
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
@@ -82,8 +82,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	/**
 	 * Process donation.
 	 *
- 	 * @since   1.0.0
- 	 * @param   mixed                          $return
+	 * @since   1.0.0
+	 * @param   mixed                          $return
 	 * @param   int                            $donation_id
 	 * @param   Charitable_Donation_Processor  $processor
 	 * @param   string                         $gateway
