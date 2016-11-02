@@ -74,7 +74,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			$gateways[ $id ] = $class;
 
 			// @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
-			add_action( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 2 );
+			// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
+			add_filter( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 2 );
 
 			if ( Pronamic_WP_Pay_Class::method_exists( $class, 'form_gateway_fields' ) && Pronamic_WP_Pay_Class::method_exists( $class, 'form_field_template' ) ) {
 				add_filter( 'charitable_donation_form_gateway_fields', array( $class, 'form_gateway_fields' ), 10, 2 );

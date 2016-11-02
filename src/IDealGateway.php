@@ -40,8 +40,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	 *
 	 * @since   1.0.2
 	 */
-	public static function process_donation( $donation_id, $processor, $gateway = null ) {
-		parent::process_donation( $donation_id, $processor, get_class() );
+	public static function process_donation( $return, $donation_id, $processor ) {
+		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
 	}
 
 	/**

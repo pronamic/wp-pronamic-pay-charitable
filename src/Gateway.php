@@ -36,6 +36,11 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 		$this->defaults = array(
 			'label' => __( 'Pronamic', 'pronamic_ideal' ),
 		);
+
+		// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/gateways/class-charitable-gateway-paypal.php#L41-L44
+		$this->supports = array(
+			'1.3.0',
+		);
 	}
 
 	/**
@@ -77,39 +82,43 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	/**
 	 * Process donation.
 	 *
+ 	 * @since   1.0.0
+ 	 * @param   mixed                          $return
 	 * @param   int                            $donation_id
 	 * @param   Charitable_Donation_Processor  $processor
 	 * @param   string                         $gateway
-	 * @since   1.0.0
+	 * @return mixed array or boolean
 	 */
-	public static function process_donation( $donation_id, $processor, $charitable_gateway = null ) {
-		if ( null === $charitable_gateway ) {
-			$charitable_gateway = new self();
-		} else {
-			$charitable_gateway = new $charitable_gateway();
-		}
-
+	public static function pronamic_process_donation( $return, $donation_id, $processor, $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;
 
 		$config_id = $charitable_gateway->get_value( 'config_id' );
 
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
 
-		if ( $gateway ) {
-			// Data
-			$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor, $charitable_gateway );
-
-			$gateway->set_payment_method( $payment_method );
-
-			$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, $payment_method );
-
-			$error = $gateway->get_error();
-
-			if ( ! is_wp_error( $error ) ) {
-				// Redirect
-				$gateway->redirect( $payment );
-			}
+		if ( ! $gateway ) {
+			return false;
 		}
+
+		// Data
+		$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor, $charitable_gateway );
+
+		$gateway->set_payment_method( $payment_method );
+
+		$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, $payment_method );
+
+		$error = $gateway->get_error();
+
+		if ( is_wp_error( $error ) ) {
+			charitable_get_notices()->add_error( $error->get_error_message() );
+
+			return false;
+		}
+
+		return array(
+			'redirect' => $payment->get_pay_redirect_url(),
+			'safe'     => false,
+		);
 	}
 
 	/**
