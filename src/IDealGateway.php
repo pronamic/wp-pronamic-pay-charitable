@@ -47,7 +47,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	/**
 	 * Form gateway fields.
 	 *
-	 * @since   1.0.2
+	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+	 * @since 1.0.2
 	 */
 	public static function form_gateway_fields( $fields, $gateway ) {
 		if ( get_class() === get_class( $gateway ) ) {
@@ -73,12 +74,16 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	/**
 	 * Form gateway field template.
 	 *
-	 * @since   1.0.2
+	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+	 * @since 1.0.2
+	 * @return
 	 */
-	public static function form_field_template( $arg, $field, $form, $index ) {
+	public static function form_field_template( $template, $field, $form, $index ) {
 		if ( 'pronamic-pay-input-html' === $field['key'] ) {
 			echo $field['gateway']->get_input_html();
 		}
+
+		return $template;
 	}
 
 	/**
