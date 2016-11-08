@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.2
+ * @version 1.1.0
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
@@ -40,14 +40,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	 *
 	 * @since   1.0.2
 	 */
-	public static function process_donation( $donation_id, $processor, $gateway = null ) {
-		parent::process_donation( $donation_id, $processor, get_class() );
+	public static function process_donation( $return, $donation_id, $processor ) {
+		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
 	}
 
 	/**
 	 * Form gateway fields.
 	 *
-	 * @since   1.0.2
+	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+	 * @since 1.0.2
 	 */
 	public static function form_gateway_fields( $fields, $gateway ) {
 		if ( get_class() === get_class( $gateway ) ) {
@@ -73,7 +74,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	/**
 	 * Form gateway field template.
 	 *
-	 * @since   1.0.2
+	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+	 * @since 1.0.2
+	 * @return
 	 */
 	public static function form_field_template( $template, $field, $form, $index ) {
 		if ( 'pronamic-pay-input-html' === $field['key'] ) {
