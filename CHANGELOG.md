@@ -7,7 +7,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
-## [1.1.0] - 2016-11-02
+## [1.1.0] - 2016-11-08
 - Updated gateway system to Charitable version 1.3+.
 
 ## [1.0.5] - 2016-10-20
