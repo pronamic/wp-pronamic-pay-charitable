@@ -38,7 +38,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( __CLASS__, 'source_text' ), 10, 2 );
-
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG,   array( __CLASS__, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG,   array( __CLASS__, 'source_url' ), 10, 2 );
 	}
 
 	//////////////////////////////////////////////////
@@ -191,5 +192,23 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		);
 
 		return $text;
+	}
+
+	/**
+	 * Source description.
+	 */
+	public static function source_description( $description, Pronamic_Pay_Payment $payment ) {
+		$description = __( 'Charitable Donation', 'pronamic_ideal' );
+
+		return $description;
+	}
+
+	/**
+	 * Source URL.
+	 */
+	public static function source_url( $url, Pronamic_Pay_Payment $payment ) {
+		$url = get_edit_post_link( $payment->source_id );
+
+		return $url;
 	}
 }
