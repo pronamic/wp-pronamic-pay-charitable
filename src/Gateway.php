@@ -82,6 +82,15 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	/**
 	 * Process donation.
 	 *
+	 * @since   1.1.1
+	 */
+	public static function process_donation( $return, $donation_id, $processor ) {
+		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
+	}
+
+	/**
+	 * Process donation.
+	 *
 	 * @since   1.0.0
 	 * @param   mixed                          $return
 	 * @param   int                            $donation_id
