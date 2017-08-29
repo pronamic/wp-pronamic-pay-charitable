@@ -154,6 +154,18 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 		return $this->user_data['email'];
 	}
 
+	public function get_first_name() {
+		if ( isset( $this->user_data['first_name'] ) ) {
+			return $this->user_data['first_name'];
+		}
+	}
+
+	public function get_last_name() {
+		if ( isset( $this->user_data['last_name'] ) ) {
+			return $this->user_data['last_name'];
+		}
+	}
+
 	public function get_customer_name() {
 		return $this->user_data['first_name'] . ' ' . $this->user_data['last_name'];
 	}
