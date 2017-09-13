@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.1.2] - 2017-09-13
+- Implemented `get_first_name()` and `get_last_name()`.
+
 ## [1.1.1] - 2017-01-25
 - Added filter for payment source URL and description.
 - Added process_donation() method to make sure Pronamic gateway works correctly.
