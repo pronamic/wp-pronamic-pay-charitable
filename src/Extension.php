@@ -104,7 +104,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	private static function get_return_url( $donation ) {
 		$url = home_url();
 
-		$campaign = reset( $donation->get_campaign_donations() );
+		$donations = $donation->get_campaign_donations();
+
+		$campaign = reset( $donations );
 
 		if ( false !== $campaign ) {
 			$url = get_permalink( $campaign->campaign_id );
