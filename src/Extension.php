@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.1.1
+ * @version 1.1.3
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Extension {
@@ -37,9 +37,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 
 		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG,   array( __CLASS__, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG,   array( __CLASS__, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG,   array( __CLASS__, 'source_url' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( __CLASS__, 'source_text' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( __CLASS__, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( __CLASS__, 'source_url' ), 10, 2 );
 	}
 
 	//////////////////////////////////////////////////
@@ -130,7 +130,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		$url = self::get_return_url( $donation );
 
 		switch ( $payment->get_status() ) {
-			case Pronamic_WP_Pay_Statuses::SUCCESS :
+			case Pronamic_WP_Pay_Statuses::SUCCESS:
 				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
 
 				break;
@@ -153,23 +153,23 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		$donation = new Charitable_Donation( $donation_id );
 
 		switch ( $payment->get_status() ) {
-			case Pronamic_WP_Pay_Statuses::CANCELLED :
+			case Pronamic_WP_Pay_Statuses::CANCELLED:
 				$donation->update_status( 'charitable-cancelled' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::EXPIRED :
+			case Pronamic_WP_Pay_Statuses::EXPIRED:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::FAILURE :
+			case Pronamic_WP_Pay_Statuses::FAILURE:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::SUCCESS :
+			case Pronamic_WP_Pay_Statuses::SUCCESS:
 				$donation->update_status( 'charitable-completed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::OPEN :
+			case Pronamic_WP_Pay_Statuses::OPEN:
 			default:
 				$donation->update_status( 'charitable-pending' );
 
@@ -183,13 +183,14 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * Source column
 	 */
 	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
-		$text  = '';
+		$text = '';
 
 		$text .= __( 'Charitable', 'pronamic_ideal' ) . '<br />';
 
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
 			get_edit_post_link( $payment->source_id ),
+			/* translators: %s: source id */
 			sprintf( __( 'Donation %s', 'pronamic_ideal' ), $payment->source_id )
 		);
 
