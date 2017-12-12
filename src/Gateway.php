@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.1.1
+ * @version 1.1.3
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
@@ -64,6 +64,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			'title'    => __( 'Transaction description', 'pronamic_ideal' ),
 			'priority' => 8,
 			'default'  => __( 'Charitable donation {donation_id}', 'pronamic_ideal' ),
+			/* translators: %s: <code>{donation_id}</code> */
 			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code>', '{donation_id}' ) ),
 		);
 
@@ -102,6 +103,11 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 		$payment_method = $charitable_gateway->payment_method;
 
 		$config_id = $charitable_gateway->get_value( 'config_id' );
+
+		if ( '' === $config_id ) {
+			// Use default gateway if no configuration has been set.
+			$config_id = get_option( 'pronamic_pay_config_id' );
+		}
 
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
 

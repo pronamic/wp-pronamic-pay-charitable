@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.1.3] - 2017-12-13
+- Use default gateway if no configuration has been set.
+
 ## [1.1.2] - 2017-09-13
 - Implemented `get_first_name()` and `get_last_name()`.
 
@@ -43,7 +46,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.1.1...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/1.1.3...HEAD
+[1.1.3]: https://github.com/wp-pay-extensions/charitable/compare/1.1.2...1.1.3
+[1.1.2]: https://github.com/wp-pay-extensions/charitable/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/wp-pay-extensions/charitable/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/wp-pay-extensions/charitable/compare/1.0.5...1.1.0
 [1.0.5]: https://github.com/wp-pay-extensions/charitable/compare/1.0.4...1.0.5

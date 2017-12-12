@@ -69,6 +69,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	//////////////////////////////////////////////////
 
 	public function get_title() {
+		/* translators: %s: order id */
 		return sprintf( __( 'Charitable donation %s', 'pronamic_ideal' ), $this->get_order_id() );
 	}
 
