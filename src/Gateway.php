@@ -103,6 +103,11 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 
 		$config_id = $charitable_gateway->get_value( 'config_id' );
 
+		if ( '' === $config_id ) {
+			// Use default gateway if no configuration has been set.
+			$config_id = get_option( 'pronamic_pay_config_id' );
+		}
+
 		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
 
 		if ( ! $gateway ) {
