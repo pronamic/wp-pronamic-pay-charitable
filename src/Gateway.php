@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Charitable gateway
@@ -55,7 +56,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			'type'     => 'select',
 			'title'    => __( 'Configuration', 'pronamic_ideal' ),
 			'priority' => 8,
-			'options'  => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
+			'options'  => Plugin::get_config_select_options( $this->payment_method ),
 			'default'  => get_option( 'pronamic_pay_config_id' ),
 		);
 
@@ -109,7 +110,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			$config_id = get_option( 'pronamic_pay_config_id' );
 		}
 
-		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( ! $gateway ) {
 			return false;
@@ -120,7 +121,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 
 		$gateway->set_payment_method( $payment_method );
 
-		$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, $payment_method );
+		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
 
 		$error = $gateway->get_error();
 

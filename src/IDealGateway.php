@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Charitable iDEAL gateway
@@ -56,7 +57,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 
 			$config_id = $gateway->get_value( 'config_id' );
 
-			$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+			$gateway = Plugin::get_gateway( $config_id );
 
 			if ( $gateway ) {
 				$gateway->set_payment_method( $payment_method );

@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Payments\Payment;
 
 /**
  * Title: Charitable extension
@@ -119,8 +120,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	 * Payment redirect URL filter.
 	 *
 	 * @param string                  $url
-	 * @param Pronamic_WP_Pay_Payment $payment
-	 * @return string
+	 * @param Payment $payment
+	 *
+*@return string
 	 */
 	public static function redirect_url( $url, $payment ) {
 		$donation_id = $payment->get_source_id();
@@ -182,7 +184,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 	/**
 	 * Source column
 	 */
-	public static function source_text( $text, Pronamic_WP_Pay_Payment $payment ) {
+	public static function source_text( $text, Payment $payment ) {
 		$text = '';
 
 		$text .= __( 'Charitable', 'pronamic_ideal' ) . '<br />';
