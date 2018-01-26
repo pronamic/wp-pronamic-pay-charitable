@@ -3,7 +3,7 @@
 	"description": "Charitable driver for the WordPress payment processing library.",
 	"keywords": ["wordpress", "wp", "pay", "charitable", "extension", "pronamic"],
 	"homepage": "http://www.wp-pay.org/extensions/charitable/",
-	"license": "GPL-3.0+",
+	"license": "GPL-3.0-or-later",
 	"authors": [
 		{
 			"name": "Pronamic",
