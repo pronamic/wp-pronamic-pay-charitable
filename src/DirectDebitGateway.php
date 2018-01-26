@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
  * Title: Charitable iDEAL gateway
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_DirectDebitGateway extends Pronamic_
 			'label' => __( 'Direct Debit', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT;
+		$this->payment_method = PaymentMethods::DIRECT_DEBIT;
 	}
 
 	/**

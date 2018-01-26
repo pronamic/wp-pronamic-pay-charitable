@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
  * Title: Charitable Bank Transfer gateway
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway extends Pronamic
 			'label' => __( 'Bank Transfer', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANK_TRANSFER;
+		$this->payment_method = PaymentMethods::BANK_TRANSFER;
 	}
 
 	/**

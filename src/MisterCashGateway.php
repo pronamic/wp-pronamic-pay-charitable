@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
  * Title: Charitable Mister Cash gateway
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_W
 			'label' => __( 'Bancontact', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANCONTACT;
+		$this->payment_method = PaymentMethods::BANCONTACT;
 	}
 
 	/**

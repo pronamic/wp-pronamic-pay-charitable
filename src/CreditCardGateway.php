@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
  * Title: Charitable Credit Card gateway
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_CreditCardGateway extends Pronamic_W
 			'label' => __( 'Credit Card', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD;
+		$this->payment_method = PaymentMethods::CREDIT_CARD;
 	}
 
 	/**

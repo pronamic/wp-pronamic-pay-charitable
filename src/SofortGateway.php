@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
  * Title: Charitable Sofort gateway
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_SofortGateway extends Pronamic_WP_Pa
 			'label' => __( 'SOFORT Banking', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::SOFORT;
+		$this->payment_method = PaymentMethods::SOFORT;
 	}
 
 	/**

@@ -1,4 +1,7 @@
 <?php
+use Pronamic\WordPress\Pay\Core\Pronamic_WP_Pay_Class;
+use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Core\Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
 /**
@@ -79,12 +82,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 			// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
 			add_filter( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 3 );
 
-			if ( Pronamic_WP_Pay_Class::method_exists( $class, 'form_gateway_fields' ) ) {
+			if ( Util::class_method_exists( $class, 'form_gateway_fields' ) ) {
 				// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
 				add_filter( 'charitable_donation_form_gateway_fields', array( $class, 'form_gateway_fields' ), 10, 2 );
 			}
 
-			if ( Pronamic_WP_Pay_Class::method_exists( $class, 'form_field_template' ) ) {
+			if ( Util::class_method_exists( $class, 'form_field_template' ) ) {
 				// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
 				add_filter( 'charitable_form_field_template', array( $class, 'form_field_template' ), 10, 4 );
 			}
@@ -132,7 +135,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		$url = self::get_return_url( $donation );
 
 		switch ( $payment->get_status() ) {
-			case Pronamic_WP_Pay_Statuses::SUCCESS:
+			case Statuses::SUCCESS:
 				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
 
 				break;
@@ -155,23 +158,23 @@ class Pronamic_WP_Pay_Extensions_Charitable_Extension {
 		$donation = new Charitable_Donation( $donation_id );
 
 		switch ( $payment->get_status() ) {
-			case Pronamic_WP_Pay_Statuses::CANCELLED:
+			case Statuses::CANCELLED:
 				$donation->update_status( 'charitable-cancelled' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::EXPIRED:
+			case Statuses::EXPIRED:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::FAILURE:
+			case Statuses::FAILURE:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::SUCCESS:
+			case Statuses::SUCCESS:
 				$donation->update_status( 'charitable-completed' );
 
 				break;
-			case Pronamic_WP_Pay_Statuses::OPEN:
+			case Statuses::OPEN:
 			default:
 				$donation->update_status( 'charitable-pending' );
 
