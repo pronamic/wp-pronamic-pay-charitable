@@ -1,4 +1,7 @@
 <?php
+
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 
@@ -8,11 +11,11 @@ use Pronamic\WordPress\Pay\Plugin;
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.1.0
- * @since 1.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
+class IDealGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
@@ -41,6 +44,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	 * Process donation.
 	 *
 	 * @since   1.0.2
+	 *
+	 * @param $return
+	 * @param $donation_id
+	 * @param $processor
+	 *
+	 * @return mixed
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -49,25 +58,32 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	/**
 	 * Form gateway fields.
 	 *
-	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
 	 * @since 1.0.2
+	 *
+	 * @param $fields
+	 * @param $gateway
+	 *
+	 * @return array
 	 */
 	public static function form_gateway_fields( $fields, $gateway ) {
-		if ( get_class() === get_class( $gateway ) ) {
-			$payment_method = $gateway->payment_method;
+		if ( get_class() !== get_class( $gateway ) ) {
+			return $fields;
+		}
 
-			$config_id = $gateway->get_value( 'config_id' );
+		$payment_method = $gateway->payment_method;
 
-			$gateway = Plugin::get_gateway( $config_id );
+		$config_id = $gateway->get_value( 'config_id' );
 
-			if ( $gateway ) {
-				$gateway->set_payment_method( $payment_method );
+		$gateway = Plugin::get_gateway( $config_id );
 
-				$fields['pronamic-pay-input-html'] = array(
-					'type'    => '',
-					'gateway' => $gateway,
-				);
-			}
+		if ( $gateway ) {
+			$gateway->set_payment_method( $payment_method );
+
+			$fields['pronamic-pay-input-html'] = array(
+				'type'    => '',
+				'gateway' => $gateway,
+			);
 		}
 
 		return $fields;
@@ -76,13 +92,20 @@ class Pronamic_WP_Pay_Extensions_Charitable_IDealGateway extends Pronamic_WP_Pay
 	/**
 	 * Form gateway field template.
 	 *
-	 * @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
 	 * @since 1.0.2
-	 * @return
+	 *
+	 * @param $template
+	 * @param $field
+	 * @param $form
+	 * @param $index
+	 *
+	 * @return string
 	 */
 	public static function form_field_template( $template, $field, $form, $index ) {
 		if ( 'pronamic-pay-input-html' === $field['key'] ) {
-			echo $field['gateway']->get_input_html();
+			echo $field['gateway']->get_input_html(); // WPCS: xss ok.
+
 			return;
 		}
 

@@ -15,6 +15,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_CharitableTest extends PHPUnit_Frame
 	 * Test class.
 	 */
 	public function test_class() {
-		$this->assertTrue( class_exists( 'Pronamic_WP_Pay_Extensions_Charitable_Charitable' ) );
+		$this->assertTrue( class_exists( 'Pronamic\WordPress\Pay\Extensions\Charitable\Charitable' ) );
 	}
 }

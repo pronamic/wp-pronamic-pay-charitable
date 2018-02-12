@@ -24,7 +24,9 @@
 		"source": "https://github.com/wp-pay-extensions/charitable"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"psr-4": {
+			"Pronamic\\WordPress\\Pay\\Extensions\\Charitable\\": "src/"
+		}
 	},
 	"config": {
 		"platform": {

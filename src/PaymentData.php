@@ -1,5 +1,9 @@
 <?php
-use Pronamic\WordPress\Pay\Payments\PaymentData;
+
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Charitable_Donation;
+use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
 use Pronamic\WordPress\Pay\Payments\Item;
 use Pronamic\WordPress\Pay\Payments\Items;
 
@@ -9,11 +13,11 @@ use Pronamic\WordPress\Pay\Payments\Items;
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
+ * @author  Remco Tolsma
  * @version 1.1.2
- * @since 1.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends PaymentData {
+class PaymentData extends Pay_PaymentData {
 	/**
 	 * The donation ID
 	 */
@@ -39,9 +43,9 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends PaymentData {
 	/**
 	 * Constructs and initializes an Charitable payment data object.
 	 *
-	 * @param $donation_id
+	 * @param       $donation_id
 	 * @param mixed $processor
-	 * @param $gateway
+	 * @param       $gateway
 	 */
 	public function __construct( $donation_id, $processor, $gateway ) {
 		parent::__construct();
@@ -83,21 +87,18 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends PaymentData {
 	 * @return string
 	 */
 	public function get_description() {
-		$search = array(
-			'{donation_id}',
-		);
-
-		$replace = array(
-			$this->get_order_id(),
-		);
-
 		$description = $this->gateway->get_value( 'transaction_description' );
 
 		if ( '' === $description ) {
 			$description = $this->get_title();
 		}
 
-		return str_replace( $search, $replace, $description );
+		// Replacements
+		$replacements = array(
+			'{donation_id}' => $this->get_order_id(),
+		);
+
+		return strtr( $description, $replacements );
 	}
 
 	/**
