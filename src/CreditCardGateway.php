@@ -22,8 +22,6 @@ class CreditCardGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_credit_card';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

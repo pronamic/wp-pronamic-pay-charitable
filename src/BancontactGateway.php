@@ -22,8 +22,6 @@ class BancontactGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_mister_cash';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

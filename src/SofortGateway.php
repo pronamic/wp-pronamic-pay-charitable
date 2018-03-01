@@ -22,8 +22,6 @@ class SofortGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_sofort';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

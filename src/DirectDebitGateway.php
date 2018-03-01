@@ -22,8 +22,6 @@ class DirectDebitGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_direct_debit';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

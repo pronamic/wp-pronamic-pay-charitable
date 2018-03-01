@@ -22,8 +22,6 @@ class BankTransferGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_bank_transfer';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

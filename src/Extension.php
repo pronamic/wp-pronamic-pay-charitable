@@ -25,8 +25,6 @@ class Extension {
 	 */
 	const SLUG = 'charitable';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Bootstrap
 	 */
@@ -48,8 +46,6 @@ class Extension {
 		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( __CLASS__, 'source_description' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( __CLASS__, 'source_url' ), 10, 2 );
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Initialize
@@ -103,8 +99,6 @@ class Extension {
 		return $gateways;
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get the default return URL.
 	 *
@@ -153,8 +147,6 @@ class Extension {
 		return $url;
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Update lead status of the specified payment
 	 *
@@ -191,8 +183,6 @@ class Extension {
 				break;
 		}
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Source column

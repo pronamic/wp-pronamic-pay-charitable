@@ -38,8 +38,6 @@ class PaymentData extends Pay_PaymentData {
 	 */
 	private $user_data;
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initializes an Charitable payment data object.
 	 *
@@ -57,8 +55,6 @@ class PaymentData extends Pay_PaymentData {
 		$this->user_data = $processor->get_donation_data_value( 'user' );
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get source indicator
 	 *
@@ -72,8 +68,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_source_id() {
 		return $this->donation_id;
 	}
-
-	//////////////////////////////////////////////////
 
 	public function get_title() {
 		/* translators: %s: order id */
@@ -137,10 +131,6 @@ class PaymentData extends Pay_PaymentData {
 		return $items;
 	}
 
-	//////////////////////////////////////////////////
-	// Currency
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get currency
 	 *
@@ -150,10 +140,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_currency_alphabetic_code() {
 		return charitable_get_currency();
 	}
-
-	//////////////////////////////////////////////////
-	// Customer
-	//////////////////////////////////////////////////
 
 	public function get_email() {
 		return $this->user_data['email'];
@@ -186,10 +172,6 @@ class PaymentData extends Pay_PaymentData {
 	public function get_zip() {
 		return $this->user_data['postcode'];
 	}
-
-	//////////////////////////////////////////////////
-	// URL's
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get normal return URL.

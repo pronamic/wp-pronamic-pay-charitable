@@ -31,8 +31,6 @@ class Gateway extends Charitable_Gateway {
 	 */
 	protected $payment_method;
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */

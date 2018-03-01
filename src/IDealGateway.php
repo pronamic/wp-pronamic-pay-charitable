@@ -23,8 +23,6 @@ class IDealGateway extends Gateway {
 	 */
 	const ID = 'pronamic_pay_ideal';
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initialize an iDEAL gateway
 	 */
