@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Statuses;
 use Pronamic\WordPress\Pay\Core\Util as Core_Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -45,6 +46,10 @@ class Extension {
 		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( __CLASS__, 'source_text' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( __CLASS__, 'source_description' ), 10, 2 );
 		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( __CLASS__, 'source_url' ), 10, 2 );
+
+		// Currencies.
+		add_filter( 'charitable_currencies', array( __CLASS__, 'currencies' ), 10, 1 );
+		add_filter( 'charitable_currency_symbol', array( __CLASS__, 'currencies' ), 10, 2 );
 	}
 
 	/**
@@ -73,6 +78,10 @@ class Extension {
 			'BancontactGateway',
 			'SofortGateway',
 		);
+
+		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
+			$classes[] = 'GuldenGateway';
+		}
 
 		foreach ( $classes as $class ) {
 			$class = __NAMESPACE__ . '\\' . $class;
@@ -182,6 +191,41 @@ class Extension {
 
 				break;
 		}
+	}
+
+	/**
+	 * Filter currencies.
+	 *
+	 * @param array $currencies Available currencies.
+	 *
+	 * @return mixed
+	 */
+	public static function currencies( $currencies ) {
+		if ( ! is_array( $currencies ) ) {
+			return $currencies;
+		}
+
+		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
+			$currencies['NLG'] = PaymentMethods::get_name( PaymentMethods::GULDEN ) . ' (G)';
+		}
+
+		return $currencies;
+	}
+
+	/**
+	 * Filter currency symbol.
+	 *
+	 * @param string $symbol   Symbol.
+	 * @param string $currency Currency.
+	 *
+	 * @return string
+	 */
+	public static function currency_symbol( $symbol, $currency ) {
+		if ( 'NLG' === $currency ) {
+			$symbol = 'G';
+		}
+
+		return $symbol;
 	}
 
 	/**
