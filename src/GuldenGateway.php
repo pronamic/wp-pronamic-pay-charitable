@@ -5,48 +5,42 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
- * Title: Charitable iDEAL gateway
+ * Title: Charitable Gulden gateway
  * Description:
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author  Remco Tolsma
+ * @author  Reüel van der Steege
  * @version 2.0.0
- * @since   1.0.0
+ * @since   2.0.0
  */
-class DirectDebitGateway extends Gateway {
+class GuldenGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
 	 * @var string
 	 */
-	const ID = 'pronamic_pay_direct_debit';
+	const ID = 'pronamic_pay_gulden';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Constructs and initialize an Gulden gateway
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->name = __( 'Direct Debit', 'pronamic_ideal' );
+		$this->name = PaymentMethods::get_name( PaymentMethods::GULDEN );
 
 		$this->defaults = array(
-			'label' => __( 'Direct Debit', 'pronamic_ideal' ),
+			'label' => PaymentMethods::get_name( PaymentMethods::GULDEN ),
 		);
 
-		$this->payment_method = PaymentMethods::DIRECT_DEBIT;
+		$this->payment_method = PaymentMethods::GULDEN;
 	}
 
 	/**
 	 * Process donation.
 	 *
 	 * @since   1.0.2
-	 *
-	 * @param $return
-	 * @param $donation_id
-	 * @param $processor
-	 *
-	 * @return mixed
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -58,7 +52,7 @@ class DirectDebitGateway extends Gateway {
 	 * @return  string
 	 * @access  public
 	 * @static
-	 * @since   1.0.1
+	 * @since   1.0.3
 	 */
 	public static function get_gateway_id() {
 		return self::ID;

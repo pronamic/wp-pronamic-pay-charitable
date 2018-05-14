@@ -1,16 +1,22 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Charitable_Donation_Processor;
+use Charitable_Gateway;
+use Pronamic\WordPress\Pay\Plugin;
+
 /**
  * Title: Charitable gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.1.3
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
+class Gateway extends Charitable_Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
@@ -24,8 +30,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	 * @var string
 	 */
 	protected $payment_method;
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initialize an iDEAL gateway
@@ -46,7 +50,8 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	/**
 	 * Register gateway settings.
 	 *
-	 * @param   array   $settings
+	 * @param   array $settings
+	 *
 	 * @return  array
 	 * @since   1.0.0
 	 */
@@ -55,7 +60,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 			'type'     => 'select',
 			'title'    => __( 'Configuration', 'pronamic_ideal' ),
 			'priority' => 8,
-			'options'  => Pronamic_WP_Pay_Plugin::get_config_select_options( $this->payment_method ),
+			'options'  => Plugin::get_config_select_options( $this->payment_method ),
 			'default'  => get_option( 'pronamic_pay_config_id' ),
 		);
 
@@ -84,6 +89,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	 * Process donation.
 	 *
 	 * @since   1.1.1
+	 *
+	 * @param $return
+	 * @param $donation_id
+	 * @param $processor
+	 *
+	 * @return mixed
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -93,39 +104,42 @@ class Pronamic_WP_Pay_Extensions_Charitable_Gateway extends Charitable_Gateway {
 	 * Process donation.
 	 *
 	 * @since   1.0.0
-	 * @param   mixed                          $return
-	 * @param   int                            $donation_id
-	 * @param   Charitable_Donation_Processor  $processor
-	 * @param   string                         $gateway
+	 *
+	 * @param   mixed                         $return
+	 * @param   int                           $donation_id
+	 * @param   Charitable_Donation_Processor $processor
+	 * @param   Charitable_Gateway            $charitable_gateway
+	 *
 	 * @return mixed array or boolean
 	 */
-	public static function pronamic_process_donation( $return, $donation_id, $processor, $charitable_gateway ) {
+	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Charitable_Gateway $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;
 
 		$config_id = $charitable_gateway->get_value( 'config_id' );
 
+		// Use default gateway if no configuration has been set.
 		if ( '' === $config_id ) {
-			// Use default gateway if no configuration has been set.
 			$config_id = get_option( 'pronamic_pay_config_id' );
 		}
 
-		$gateway = Pronamic_WP_Pay_Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( ! $gateway ) {
 			return false;
 		}
 
 		// Data
-		$data = new Pronamic_WP_Pay_Extensions_Charitable_PaymentData( $donation_id, $processor, $charitable_gateway );
+		$data = new PaymentData( $donation_id, $processor, $charitable_gateway );
 
 		$gateway->set_payment_method( $payment_method );
 
-		$payment = Pronamic_WP_Pay_Plugin::start( $config_id, $gateway, $data, $payment_method );
+		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
 
 		$error = $gateway->get_error();
 
 		if ( is_wp_error( $error ) ) {
-			charitable_get_notices()->add_error( $error->get_error_message() );
+			charitable_get_notices()->add_error( Plugin::get_default_error_message() );
+			charitable_get_notices()->add_errors_from_wp_error( $error );
 
 			return false;
 		}

@@ -1,16 +1,23 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Charitable_Donation;
+use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
+use Pronamic\WordPress\Pay\Payments\Item;
+use Pronamic\WordPress\Pay\Payments\Items;
+
 /**
  * Title: WordPress pay Charitable payment data
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.1.2
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_PaymentData {
+class PaymentData extends Pay_PaymentData {
 	/**
 	 * The donation ID
 	 */
@@ -31,14 +38,12 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	 */
 	private $user_data;
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Constructs and initializes an Charitable payment data object.
 	 *
-	 * @param $donation_id
+	 * @param       $donation_id
 	 * @param mixed $processor
-	 * @param $gateway
+	 * @param       $gateway
 	 */
 	public function __construct( $donation_id, $processor, $gateway ) {
 		parent::__construct();
@@ -49,8 +54,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 
 		$this->user_data = $processor->get_donation_data_value( 'user' );
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get source indicator
@@ -66,8 +69,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 		return $this->donation_id;
 	}
 
-	//////////////////////////////////////////////////
-
 	public function get_title() {
 		/* translators: %s: order id */
 		return sprintf( __( 'Charitable donation %s', 'pronamic_ideal' ), $this->get_order_id() );
@@ -80,21 +81,18 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	 * @return string
 	 */
 	public function get_description() {
-		$search = array(
-			'{donation_id}',
-		);
-
-		$replace = array(
-			$this->get_order_id(),
-		);
-
 		$description = $this->gateway->get_value( 'transaction_description' );
 
 		if ( '' === $description ) {
 			$description = $this->get_title();
 		}
 
-		return str_replace( $search, $replace, $description );
+		// Replacements
+		$replacements = array(
+			'{donation_id}' => $this->get_order_id(),
+		);
+
+		return strtr( $description, $replacements );
 	}
 
 	/**
@@ -111,17 +109,17 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	 * Get items
 	 *
 	 * @see Pronamic_Pay_PaymentDataInterface::get_items()
-	 * @return Pronamic_IDeal_Items
+	 * @return Items
 	 */
 	public function get_items() {
 		$donation = new Charitable_Donation( $this->donation_id );
 
 		// Items
-		$items = new Pronamic_IDeal_Items();
+		$items = new Items();
 
 		// Item
 		// We only add one total item, because iDEAL cant work with negative price items (discount)
-		$item = new Pronamic_IDeal_Item();
+		$item = new Item();
 		$item->setNumber( $this->get_order_id() );
 		$item->setDescription( $this->get_description() );
 		// @see http://plugins.trac.wordpress.org/browser/woocommerce/tags/1.5.2.1/classes/class-wc-order.php#L50
@@ -133,10 +131,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 		return $items;
 	}
 
-	//////////////////////////////////////////////////
-	// Currency
-	//////////////////////////////////////////////////
-
 	/**
 	 * Get currency
 	 *
@@ -146,10 +140,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	public function get_currency_alphabetic_code() {
 		return charitable_get_currency();
 	}
-
-	//////////////////////////////////////////////////
-	// Customer
-	//////////////////////////////////////////////////
 
 	public function get_email() {
 		return $this->user_data['email'];
@@ -182,10 +172,6 @@ class Pronamic_WP_Pay_Extensions_Charitable_PaymentData extends Pronamic_WP_Pay_
 	public function get_zip() {
 		return $this->user_data['postcode'];
 	}
-
-	//////////////////////////////////////////////////
-	// URL's
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get normal return URL.

@@ -1,24 +1,26 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+
 /**
  * Title: Charitable Bank Transfer gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.1.0
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
+class BankTransferGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
 	 * @var string
 	 */
 	const ID = 'pronamic_pay_bank_transfer';
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initialize an iDEAL gateway
@@ -32,13 +34,19 @@ class Pronamic_WP_Pay_Extensions_Charitable_BankTransferGateway extends Pronamic
 			'label' => __( 'Bank Transfer', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANK_TRANSFER;
+		$this->payment_method = PaymentMethods::BANK_TRANSFER;
 	}
 
 	/**
 	 * Process donation.
 	 *
 	 * @since   1.0.2
+	 *
+	 * @param $return
+	 * @param $donation_id
+	 * @param $processor
+	 *
+	 * @return mixed
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );

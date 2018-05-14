@@ -1,24 +1,26 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+
 /**
  * Title: Charitable Sofort gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.1.0
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_SofortGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
+class SofortGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
 	 * @var string
 	 */
 	const ID = 'pronamic_pay_sofort';
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initialize an iDEAL gateway
@@ -32,7 +34,7 @@ class Pronamic_WP_Pay_Extensions_Charitable_SofortGateway extends Pronamic_WP_Pa
 			'label' => __( 'SOFORT Banking', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::SOFORT;
+		$this->payment_method = PaymentMethods::SOFORT;
 	}
 
 	/**

@@ -1,24 +1,26 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+
 /**
  * Title: Charitable Mister Cash gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.1.0
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_WP_Pay_Extensions_Charitable_Gateway {
+class BancontactGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
 	 * @var string
 	 */
 	const ID = 'pronamic_pay_mister_cash';
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Constructs and initialize an iDEAL gateway
@@ -32,13 +34,19 @@ class Pronamic_WP_Pay_Extensions_Charitable_MisterCashGateway extends Pronamic_W
 			'label' => __( 'Bancontact', 'pronamic_ideal' ),
 		);
 
-		$this->payment_method = Pronamic_WP_Pay_PaymentMethods::BANCONTACT;
+		$this->payment_method = PaymentMethods::BANCONTACT;
 	}
 
 	/**
 	 * Process donation.
 	 *
 	 * @since   1.0.2
+	 *
+	 * @param $return
+	 * @param $donation_id
+	 * @param $processor
+	 *
+	 * @return mixed
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
