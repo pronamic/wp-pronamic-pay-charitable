@@ -1,20 +1,24 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Extensions\Charitable;
+
+use PHPUnit_Framework_TestCase;
+
 /**
  * Title: WordPress pay Charitable test
  * Description:
  * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
- * @author Remco Tolsma
- * @version 1.0.0
- * @since 1.0.0
+ * @author  Remco Tolsma
+ * @version 2.0.0
+ * @since   1.0.0
  */
-class Pronamic_WP_Pay_Extensions_Charitable_CharitableTest extends PHPUnit_Framework_TestCase {
+class CharitableTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test class.
 	 */
 	public function test_class() {
-		$this->assertTrue( class_exists( 'Pronamic\WordPress\Pay\Extensions\Charitable\Charitable' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\Charitable' ) );
 	}
 }
