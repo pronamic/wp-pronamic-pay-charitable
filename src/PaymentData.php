@@ -120,11 +120,11 @@ class PaymentData extends Pay_PaymentData {
 		// Item
 		// We only add one total item, because iDEAL cant work with negative price items (discount)
 		$item = new Item();
-		$item->setNumber( $this->get_order_id() );
-		$item->setDescription( $this->get_description() );
+		$item->set_number( $this->get_order_id() );
+		$item->set_description( $this->get_description() );
 		// @see http://plugins.trac.wordpress.org/browser/woocommerce/tags/1.5.2.1/classes/class-wc-order.php#L50
-		$item->setPrice( $donation->get_total_donation_amount() );
-		$item->setQuantity( 1 );
+		$item->set_price( $donation->get_total_donation_amount() );
+		$item->set_quantity( 1 );
 
 		$items->addItem( $item );
 
