@@ -62,7 +62,7 @@ class Extension {
 	/**
 	 * Charitable payments gateways.
 	 *
-	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateways.php#L44-L51
+	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateways.php#L44-L51
 	 *
 	 * @param array $gateways
 	 *
@@ -90,17 +90,17 @@ class Extension {
 
 			$gateways[ $id ] = $class;
 
-			// @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
-			// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
+			// @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
+			// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
 			add_filter( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 3 );
 
 			if ( Core_Util::class_method_exists( $class, 'form_gateway_fields' ) ) {
-				// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+				// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
 				add_filter( 'charitable_donation_form_gateway_fields', array( $class, 'form_gateway_fields' ), 10, 2 );
 			}
 
 			if ( Core_Util::class_method_exists( $class, 'form_field_template' ) ) {
-				// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+				// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
 				add_filter( 'charitable_form_field_template', array( $class, 'form_field_template' ), 10, 4 );
 			}
 		}
@@ -159,7 +159,7 @@ class Extension {
 	/**
 	 * Update lead status of the specified payment
 	 *
-	 * @see https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
+	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
 	 *
 	 * @param Payment $payment
 	 */
