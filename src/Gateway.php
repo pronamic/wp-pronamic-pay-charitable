@@ -41,7 +41,7 @@ class Gateway extends Charitable_Gateway {
 			'label' => __( 'Pronamic', 'pronamic_ideal' ),
 		);
 
-		// @see https://github.com/Charitable/Charitable/blob/1.4.5/includes/gateways/class-charitable-gateway-paypal.php#L41-L44
+		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/gateways/class-charitable-gateway-paypal.php#L41-L44
 		$this->supports = array(
 			'1.3.0',
 		);
