@@ -2,6 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
+use Charitable_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 
@@ -43,9 +44,9 @@ class IDealGateway extends Gateway {
 	 *
 	 * @since   1.0.2
 	 *
-	 * @param $return
-	 * @param $donation_id
-	 * @param $processor
+	 * @param $return      Return.
+;	 * @param $donation_id Donation ID.
+	 * @param $processor   Charitable donation processor.
 	 *
 	 * @return mixed
 	 */
@@ -59,8 +60,8 @@ class IDealGateway extends Gateway {
 	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
 	 * @since 1.0.2
 	 *
-	 * @param $fields
-	 * @param $gateway
+	 * @param array              $fields  Fields.
+	 * @param Charitable_Gateway $gateway Gateway.
 	 *
 	 * @return array
 	 */
@@ -93,10 +94,10 @@ class IDealGateway extends Gateway {
 	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
 	 * @since 1.0.2
 	 *
-	 * @param $template
-	 * @param $field
-	 * @param $form
-	 * @param $index
+	 * @param string $template Template.
+	 * @param array  $field    Field.
+	 * @param        $form     Form.
+	 * @param        $index    Index.
 	 *
 	 * @return string
 	 */

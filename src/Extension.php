@@ -64,7 +64,7 @@ class Extension {
 	 *
 	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateways.php#L44-L51
 	 *
-	 * @param array $gateways
+	 * @param array $gateways Gateways.
 	 *
 	 * @return array
 	 */
@@ -113,7 +113,7 @@ class Extension {
 	 *
 	 * @since 1.0.3
 	 *
-	 * @param Charitable_Donation $donation
+	 * @param Charitable_Donation $donation Donation.
 	 *
 	 * @return string URL
 	 */
@@ -134,8 +134,8 @@ class Extension {
 	/**
 	 * Payment redirect URL filter.
 	 *
-	 * @param string $url
-	 * @param Payment $payment
+	 * @param string  $url     Redirect URL.
+	 * @param Payment $payment Payment.
 	 *
 	 * @return string
 	 */
@@ -161,7 +161,7 @@ class Extension {
 	 *
 	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
 	 *
-	 * @param Payment $payment
+	 * @param Payment $payment Payment.
 	 */
 	public static function status_update( Payment $payment ) {
 		$donation_id = $payment->get_source_id();
@@ -231,8 +231,8 @@ class Extension {
 	/**
 	 * Source column
 	 *
-	 * @param         $text
-	 * @param Payment $payment
+	 * @param string  $text    Source text.
+	 * @param Payment $payment Payment.
 	 *
 	 * @return string
 	 */
@@ -252,8 +252,8 @@ class Extension {
 	/**
 	 * Source description.
 	 *
-	 * @param         $description
-	 * @param Payment $payment
+	 * @param string  $description Source description.
+	 * @param Payment $payment     Payment.
 	 *
 	 * @return string
 	 */
@@ -264,8 +264,8 @@ class Extension {
 	/**
 	 * Source URL.
 	 *
-	 * @param         $url
-	 * @param Payment $payment
+	 * @param string  $url     Source URL.
+	 * @param Payment $payment Payment.
 	 *
 	 * @return null|string
 	 */

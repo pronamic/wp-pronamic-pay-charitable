@@ -90,9 +90,9 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.1.1
 	 *
-	 * @param $return
-	 * @param $donation_id
-	 * @param $processor
+	 * @param $return      Return.
+	 * @param $donation_id Donation ID.
+	 * @param $processor   Charitable processor.
 	 *
 	 * @return mixed
 	 */
@@ -105,10 +105,10 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.0.0
 	 *
-	 * @param   mixed                         $return
-	 * @param   int                           $donation_id
-	 * @param   Charitable_Donation_Processor $processor
-	 * @param   Charitable_Gateway            $charitable_gateway
+	 * @param   mixed                         $return             Return.
+	 * @param   int                           $donation_id        Donation ID.
+	 * @param   Charitable_Donation_Processor $processor          Charitable processor.
+	 * @param   Charitable_Gateway            $charitable_gateway Charitable gateway.
 	 *
 	 * @return mixed array or boolean
 	 */
@@ -128,7 +128,7 @@ class Gateway extends Charitable_Gateway {
 			return false;
 		}
 
-		// Data
+		// Data.
 		$data = new PaymentData( $donation_id, $processor, $charitable_gateway );
 
 		$gateway->set_payment_method( $payment_method );
