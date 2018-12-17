@@ -3,6 +3,8 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
+use Charitable_Donation_Processor;
+use Charitable_Gateway;
 use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
 use Pronamic\WordPress\Pay\Payments\Item;
 use Pronamic\WordPress\Pay\Payments\Items;
@@ -20,16 +22,22 @@ use Pronamic\WordPress\Pay\Payments\Items;
 class PaymentData extends Pay_PaymentData {
 	/**
 	 * The donation ID
+	 *
+	 * @var int
 	 */
 	private $donation_id;
 
 	/**
 	 * Processor
+	 *
+	 * @var Charitable_Donation_Processor
 	 */
 	private $processor;
 
 	/**
 	 * Gateway
+	 *
+	 * @var Charitable_Gateway
 	 */
 	private $gateway;
 
@@ -43,9 +51,9 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Constructs and initializes an Charitable payment data object.
 	 *
-	 * @param       $donation_id Donation ID.
-	 * @param mixed $processor   Donation processor.
-	 * @param       $gateway     Gateway.
+	 * @param int                           $donation_id Donation ID.
+	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
+	 * @param Charitable_Gateway            $gateway     Charitable gateway.
 	 */
 	public function __construct( $donation_id, $processor, $gateway ) {
 		parent::__construct();

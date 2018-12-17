@@ -44,11 +44,11 @@ class IDealGateway extends Gateway {
 	 *
 	 * @since   1.0.2
 	 *
-	 * @param $return      Return.
-;	 * @param $donation_id Donation ID.
-	 * @param $processor   Charitable donation processor.
+	 * @param bool|array                    $return      Return.
+	 * @param int                           $donation_id Donation ID.
+	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
 	 *
-	 * @return mixed
+	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -94,10 +94,10 @@ class IDealGateway extends Gateway {
 	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
 	 * @since 1.0.2
 	 *
-	 * @param string $template Template.
-	 * @param array  $field    Field.
-	 * @param        $form     Form.
-	 * @param        $index    Index.
+	 * @param false|Charitable_Template $template False by default.
+	 * @param array                     $field    Field definition.
+	 * @param Charitable_Form           $form     The Charitable_Form object.
+	 * @param int                       $index    The current index.
 	 *
 	 * @return string
 	 */

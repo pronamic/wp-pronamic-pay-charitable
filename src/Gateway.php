@@ -90,11 +90,11 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.1.1
 	 *
-	 * @param $return      Return.
-	 * @param $donation_id Donation ID.
-	 * @param $processor   Charitable processor.
+	 * @param bool|array                    $return      Return.
+	 * @param int                           $donation_id Donation ID.
+	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
 	 *
-	 * @return mixed
+	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -105,12 +105,12 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.0.0
 	 *
-	 * @param   mixed                         $return             Return.
+	 * @param   bool|array                    $return             Return.
 	 * @param   int                           $donation_id        Donation ID.
-	 * @param   Charitable_Donation_Processor $processor          Charitable processor.
+	 * @param   Charitable_Donation_Processor $processor          Charitable donation processor.
 	 * @param   Charitable_Gateway            $charitable_gateway Charitable gateway.
 	 *
-	 * @return mixed array or boolean
+	 * @return bool|array
 	 */
 	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Charitable_Gateway $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;

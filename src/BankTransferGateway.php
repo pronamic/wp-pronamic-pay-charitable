@@ -42,11 +42,11 @@ class BankTransferGateway extends Gateway {
 	 *
 	 * @since   1.0.2
 	 *
-	 * @param $return
-	 * @param $donation_id
-	 * @param $processor
+	 * @param bool|array                    $return      Return.
+	 * @param int                           $donation_id Donation ID.
+	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
 	 *
-	 * @return mixed
+	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
