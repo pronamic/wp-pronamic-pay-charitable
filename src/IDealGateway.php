@@ -2,6 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
+use Charitable_Donation_Processor;
 use Charitable_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
