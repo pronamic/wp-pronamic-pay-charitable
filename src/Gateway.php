@@ -9,7 +9,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: Charitable gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2018
+ * Copyright: 2005-2019 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -90,11 +90,11 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.1.1
 	 *
-	 * @param $return
-	 * @param $donation_id
-	 * @param $processor
+	 * @param bool|array                    $return      Return.
+	 * @param int                           $donation_id Donation ID.
+	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
 	 *
-	 * @return mixed
+	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
@@ -105,12 +105,12 @@ class Gateway extends Charitable_Gateway {
 	 *
 	 * @since   1.0.0
 	 *
-	 * @param   mixed                         $return
-	 * @param   int                           $donation_id
-	 * @param   Charitable_Donation_Processor $processor
-	 * @param   Charitable_Gateway            $charitable_gateway
+	 * @param   bool|array                    $return             Return.
+	 * @param   int                           $donation_id        Donation ID.
+	 * @param   Charitable_Donation_Processor $processor          Charitable donation processor.
+	 * @param   Charitable_Gateway            $charitable_gateway Charitable gateway.
 	 *
-	 * @return mixed array or boolean
+	 * @return bool|array
 	 */
 	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Charitable_Gateway $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;
@@ -128,7 +128,7 @@ class Gateway extends Charitable_Gateway {
 			return false;
 		}
 
-		// Data
+		// Data.
 		$data = new PaymentData( $donation_id, $processor, $charitable_gateway );
 
 		$gateway->set_payment_method( $payment_method );
