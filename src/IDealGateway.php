@@ -104,7 +104,8 @@ class IDealGateway extends Gateway {
 	 */
 	public static function form_field_template( $template, $field, $form, $index ) {
 		if ( 'pronamic-pay-input-html' === $field['key'] ) {
-			echo $field['gateway']->get_input_html(); // WPCS: xss ok.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $field['gateway']->get_input_html();
 
 			return;
 		}
