@@ -133,13 +133,11 @@ class Gateway extends Charitable_Gateway {
 
 		$gateway->set_payment_method( $payment_method );
 
-		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
-
-		$error = $gateway->get_error();
-
-		if ( is_wp_error( $error ) ) {
+		try {
+			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+		} catch ( \Pronamic\WordPress\Pay\PayException $e ) {
 			charitable_get_notices()->add_error( Plugin::get_default_error_message() );
-			charitable_get_notices()->add_errors_from_wp_error( $error );
+			charitable_get_notices()->add_errors( $e->get_message() );
 
 			return false;
 		}
