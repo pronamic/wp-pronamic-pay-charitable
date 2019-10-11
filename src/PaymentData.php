@@ -146,7 +146,7 @@ class PaymentData extends Pay_PaymentData {
 		$item->set_price( $donation->get_total_donation_amount() );
 		$item->set_quantity( 1 );
 
-		$items->addItem( $item );
+		$items->add_item( $item );
 
 		return $items;
 	}
