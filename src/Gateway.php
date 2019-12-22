@@ -13,7 +13,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.3
  * @since   1.0.0
  */
 class Gateway extends Charitable_Gateway {
@@ -133,13 +133,17 @@ class Gateway extends Charitable_Gateway {
 
 		$gateway->set_payment_method( $payment_method );
 
-		$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+		try {
+			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
 
-		$error = $gateway->get_error();
+			$error = $gateway->get_error();
 
-		if ( is_wp_error( $error ) ) {
+			if ( is_wp_error( $error ) ) {
+				throw new \Exception( $error->get_error_message() );
+			}
+		} catch ( \Exception $e ) {
 			charitable_get_notices()->add_error( Plugin::get_default_error_message() );
-			charitable_get_notices()->add_errors_from_wp_error( $error );
+			charitable_get_notices()->add_error( $e->get_message() );
 
 			return false;
 		}

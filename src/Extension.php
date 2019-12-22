@@ -4,7 +4,7 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
-use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Core\Util as Core_Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
@@ -15,7 +15,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.3
  * @since   1.0.0
  */
 class Extension {
@@ -147,7 +147,7 @@ class Extension {
 		$url = self::get_return_url( $donation );
 
 		switch ( $payment->get_status() ) {
-			case Statuses::SUCCESS:
+			case PaymentStatus::SUCCESS:
 				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
 
 				break;
@@ -169,23 +169,23 @@ class Extension {
 		$donation = new Charitable_Donation( $donation_id );
 
 		switch ( $payment->get_status() ) {
-			case Statuses::CANCELLED:
+			case PaymentStatus::CANCELLED:
 				$donation->update_status( 'charitable-cancelled' );
 
 				break;
-			case Statuses::EXPIRED:
+			case PaymentStatus::EXPIRED:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Statuses::FAILURE:
+			case PaymentStatus::FAILURE:
 				$donation->update_status( 'charitable-failed' );
 
 				break;
-			case Statuses::SUCCESS:
+			case PaymentStatus::SUCCESS:
 				$donation->update_status( 'charitable-completed' );
 
 				break;
-			case Statuses::OPEN:
+			case PaymentStatus::OPEN:
 			default:
 				$donation->update_status( 'charitable-pending' );
 
