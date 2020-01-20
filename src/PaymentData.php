@@ -5,6 +5,7 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 use Charitable_Donation;
 use Charitable_Donation_Processor;
 use Charitable_Gateway;
+use Pronamic\WordPress\Money\Parser as MoneyParser;
 use Pronamic\WordPress\Pay\Payments\PaymentData as Pay_PaymentData;
 use Pronamic\WordPress\Pay\Payments\Item;
 use Pronamic\WordPress\Pay\Payments\Items;
@@ -142,9 +143,14 @@ class PaymentData extends Pay_PaymentData {
 		$item = new Item();
 		$item->set_number( $this->get_order_id() );
 		$item->set_description( $this->get_description() );
-		// @link https://plugins.trac.wordpress.org/browser/woocommerce/tags/1.5.2.1/classes/class-wc-order.php#L50
-		$item->set_price( $donation->get_total_donation_amount() );
 		$item->set_quantity( 1 );
+
+		// Price.
+		$money_parser = new MoneyParser();
+
+		$price = $money_parser->parse( $donation->get_total_donation_amount() )->get_value();
+
+		$item->set_price( $price );
 
 		$items->add_item( $item );
 
