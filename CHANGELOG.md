@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 - Use money parser for donation amount.
 
+## [2.0.4] - 2020-02-03
+- Fixed processing decimal input amounts.
+
 ## [2.0.3] - 2019-12-22
 - Improved error handling with exceptions.
 - Updated usage of deprecated `addItem()` method.
@@ -60,7 +63,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.0.3...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.0.4...HEAD
+[2.0.4]: https://github.com/wp-pay-extensions/charitable/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/wp-pay-extensions/charitable/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/wp-pay-extensions/charitable/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/wp-pay-extensions/charitable/compare/2.0.0...2.0.1
