@@ -18,7 +18,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
  * @version 2.0.3
  * @since   1.0.0
  */
-class Extension {
+class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -27,16 +27,11 @@ class Extension {
 	const SLUG = 'charitable';
 
 	/**
-	 * Bootstrap
-	 */
-	public static function bootstrap() {
-		new self();
-	}
-
-	/**
 	 * Construct and initializes an Charitable extension object.
 	 */
 	public function __construct() {
+		parent::__construct();
+
 		add_action( 'init', array( $this, 'init' ) );
 
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
