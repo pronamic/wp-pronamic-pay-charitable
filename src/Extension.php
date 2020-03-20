@@ -60,8 +60,8 @@ class Extension extends AbstractPluginIntegration {
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
 
 		// Currencies.
-		add_filter( 'charitable_currencies', array( __CLASS__, 'currencies' ), 10, 1 );
-		add_filter( 'charitable_currency_symbol', array( __CLASS__, 'currencies' ), 10, 2 );
+		add_filter( 'charitable_currencies', array( $this, 'currencies' ), 10, 1 );
+		add_filter( 'charitable_currency_symbol', array( $this, 'currencies' ), 10, 2 );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function redirect_url( $url, Payment $payment ) {
+	public function redirect_url( $url, Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
@@ -168,7 +168,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @param Payment $payment Payment.
 	 */
-	public static function status_update( Payment $payment ) {
+	public function status_update( Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
@@ -205,7 +205,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return mixed
 	 */
-	public static function currencies( $currencies ) {
+	public function currencies( $currencies ) {
 		if ( ! is_array( $currencies ) ) {
 			return $currencies;
 		}
@@ -225,7 +225,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function currency_symbol( $symbol, $currency ) {
+	public function currency_symbol( $symbol, $currency ) {
 		if ( 'NLG' === $currency ) {
 			$symbol = 'G';
 		}
@@ -241,7 +241,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function source_text( $text, Payment $payment ) {
+	public function source_text( $text, Payment $payment ) {
 		$text = __( 'Charitable', 'pronamic_ideal' ) . '<br />';
 
 		$text .= sprintf(
@@ -262,7 +262,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function source_description( $description, Payment $payment ) {
+	public function source_description( $description, Payment $payment ) {
 		return __( 'Charitable Donation', 'pronamic_ideal' );
 	}
 
@@ -274,7 +274,7 @@ class Extension extends AbstractPluginIntegration {
 	 *
 	 * @return null|string
 	 */
-	public static function source_url( $url, Payment $payment ) {
+	public function source_url( $url, Payment $payment ) {
 		return get_edit_post_link( $payment->source_id );
 	}
 }
