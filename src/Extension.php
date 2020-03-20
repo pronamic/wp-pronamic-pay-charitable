@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
+use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Core\Util as Core_Util;
@@ -18,7 +19,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
  * @version 2.0.3
  * @since   1.0.0
  */
-class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
+class Extension extends AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -27,31 +28,40 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	const SLUG = 'charitable';
 
 	/**
-	 * Construct and initializes an Charitable extension object.
+	 * Construct and initializes an Formidable Forms extension object.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'init', array( $this, 'init' ) );
+		// Dependencies.
+		$dependencies = $this->get_dependencies();
+
+		$dependencies->add( new CharitableDependency() );
+	}
+
+	/**
+	 * Setup plugin integration.
+	 *
+	 * @return void
+	 */
+	public function setup() {
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
+
+		// Check if dependencies are met and integration is active.
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( $this, 'redirect_url' ), 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'status_update' ), 10 );
 
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
-
-		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( __CLASS__, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( __CLASS__, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( __CLASS__, 'source_url' ), 10, 2 );
 
 		// Currencies.
 		add_filter( 'charitable_currencies', array( __CLASS__, 'currencies' ), 10, 1 );
 		add_filter( 'charitable_currency_symbol', array( __CLASS__, 'currencies' ), 10, 2 );
-	}
-
-	/**
-	 * Initialize
-	 */
-	public function init() {
-
 	}
 
 	/**
