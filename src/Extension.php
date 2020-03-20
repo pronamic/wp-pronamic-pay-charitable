@@ -28,7 +28,7 @@ class Extension extends AbstractPluginIntegration {
 	const SLUG = 'charitable';
 
 	/**
-	 * Construct and initializes an Formidable Forms extension object.
+	 * Construct Charitable plugin integration.
 	 */
 	public function __construct() {
 		parent::__construct();
