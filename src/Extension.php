@@ -61,7 +61,7 @@ class Extension extends AbstractPluginIntegration {
 
 		// Currencies.
 		add_filter( 'charitable_currencies', array( $this, 'currencies' ), 10, 1 );
-		add_filter( 'charitable_currency_symbol', array( $this, 'currencies' ), 10, 2 );
+		add_filter( 'charitable_currency_symbol', array( $this, 'currency_symbol' ), 10, 2 );
 	}
 
 	/**
