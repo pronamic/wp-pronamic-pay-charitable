@@ -31,7 +31,11 @@ class Extension extends AbstractPluginIntegration {
 	 * Construct Charitable plugin integration.
 	 */
 	public function __construct() {
-		parent::__construct();
+		parent::__construct(
+			array(
+				'name' => __( 'Charitable', 'pronamic_ideal' ),
+			)
+		);
 
 		// Dependencies.
 		$dependencies = $this->get_dependencies();
