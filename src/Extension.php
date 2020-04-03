@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
+use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Core\Util as Core_Util;
@@ -18,7 +19,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
  * @version 2.0.3
  * @since   1.0.0
  */
-class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
+class Extension extends AbstractPluginIntegration {
 	/**
 	 * Slug
 	 *
@@ -27,31 +28,44 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	const SLUG = 'charitable';
 
 	/**
-	 * Construct and initializes an Charitable extension object.
+	 * Construct Charitable plugin integration.
 	 */
 	public function __construct() {
-		parent::__construct();
+		parent::__construct(
+			array(
+				'name' => __( 'Charitable', 'pronamic_ideal' ),
+			)
+		);
 
-		add_action( 'init', array( $this, 'init' ) );
+		// Dependencies.
+		$dependencies = $this->get_dependencies();
 
-		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
-
-		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( __CLASS__, 'redirect_url' ), 10, 2 );
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( __CLASS__, 'status_update' ), 10 );
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( __CLASS__, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( __CLASS__, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( __CLASS__, 'source_url' ), 10, 2 );
-
-		// Currencies.
-		add_filter( 'charitable_currencies', array( __CLASS__, 'currencies' ), 10, 1 );
-		add_filter( 'charitable_currency_symbol', array( __CLASS__, 'currencies' ), 10, 2 );
+		$dependencies->add( new CharitableDependency() );
 	}
 
 	/**
-	 * Initialize
+	 * Setup plugin integration.
+	 *
+	 * @return void
 	 */
-	public function init() {
+	public function setup() {
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
 
+		// Check if dependencies are met and integration is active.
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( $this, 'redirect_url' ), 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'status_update' ), 10 );
+
+		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
+
+		// Currencies.
+		add_filter( 'charitable_currencies', array( $this, 'currencies' ), 10, 1 );
+		add_filter( 'charitable_currency_symbol', array( $this, 'currency_symbol' ), 10, 2 );
 	}
 
 	/**
@@ -134,7 +148,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function redirect_url( $url, Payment $payment ) {
+	public function redirect_url( $url, Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
@@ -158,7 +172,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @param Payment $payment Payment.
 	 */
-	public static function status_update( Payment $payment ) {
+	public function status_update( Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
 		$donation = new Charitable_Donation( $donation_id );
@@ -195,7 +209,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return mixed
 	 */
-	public static function currencies( $currencies ) {
+	public function currencies( $currencies ) {
 		if ( ! is_array( $currencies ) ) {
 			return $currencies;
 		}
@@ -215,7 +229,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function currency_symbol( $symbol, $currency ) {
+	public function currency_symbol( $symbol, $currency ) {
 		if ( 'NLG' === $currency ) {
 			$symbol = 'G';
 		}
@@ -231,7 +245,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function source_text( $text, Payment $payment ) {
+	public function source_text( $text, Payment $payment ) {
 		$text = __( 'Charitable', 'pronamic_ideal' ) . '<br />';
 
 		$text .= sprintf(
@@ -252,7 +266,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return string
 	 */
-	public static function source_description( $description, Payment $payment ) {
+	public function source_description( $description, Payment $payment ) {
 		return __( 'Charitable Donation', 'pronamic_ideal' );
 	}
 
@@ -264,7 +278,7 @@ class Extension extends \Pronamic\WordPress\Pay\AbstractPluginIntegration {
 	 *
 	 * @return null|string
 	 */
-	public static function source_url( $url, Payment $payment ) {
+	public function source_url( $url, Payment $payment ) {
 		return get_edit_post_link( $payment->source_id );
 	}
 }
