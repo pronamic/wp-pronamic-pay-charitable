@@ -143,7 +143,7 @@ class Gateway extends Charitable_Gateway {
 			}
 		} catch ( \Exception $e ) {
 			charitable_get_notices()->add_error( Plugin::get_default_error_message() );
-			charitable_get_notices()->add_error( $e->get_message() );
+			charitable_get_notices()->add_error( $e->getMessage() );
 
 			return false;
 		}
