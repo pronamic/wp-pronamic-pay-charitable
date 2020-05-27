@@ -298,4 +298,13 @@ class PaymentData extends Pay_PaymentData {
 
 		return $cancel_url;
 	}
+
+	/**
+	 * Get Telephone Number.
+	 *
+	 * @return null|string
+	 */
+	public function get_telephone_number(){
+	   return $this->user_data['phone'];
+	}
 }
