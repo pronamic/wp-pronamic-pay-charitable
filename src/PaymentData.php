@@ -17,7 +17,7 @@ use Pronamic\WordPress\Pay\Payments\Items;
  * Company: Pronamic
  *
  * @author  Remco Tolsma
- * @version 2.0.3
+ * @version 2.1.2
  * @since   1.0.0
  */
 class PaymentData extends Pay_PaymentData {
@@ -232,6 +232,15 @@ class PaymentData extends Pay_PaymentData {
 	 */
 	public function get_zip() {
 		return $this->user_data['postcode'];
+	}
+
+	/**
+	 * Get telephone number.
+	 *
+	 * @return null|string
+	 */
+	public function get_telephone_number() {
+		return $this->user_data['phone'];
 	}
 
 	/**
