@@ -235,6 +235,15 @@ class PaymentData extends Pay_PaymentData {
 	}
 
 	/**
+	 * Get telephone number.
+	 *
+	 * @return null|string
+	 */
+	public function get_telephone_number() {
+		return $this->user_data['phone'];
+	}
+
+	/**
 	 * Get normal return URL.
 	 *
 	 * @link https://github.com/woothemes/woocommerce/blob/v2.1.3/includes/abstracts/abstract-wc-payment-gateway.php#L52
@@ -297,14 +306,5 @@ class PaymentData extends Pay_PaymentData {
 		}
 
 		return $cancel_url;
-	}
-
-	/**
-	 * Get Telephone Number.
-	 *
-	 * @return null|string
-	 */
-	public function get_telephone_number(){
-	   return $this->user_data['phone'];
 	}
 }
