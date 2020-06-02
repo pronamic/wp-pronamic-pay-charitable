@@ -7,6 +7,10 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 - Use money parser for donation amount.
 
+## [2.1.2] - 2020-06-02
+- Add telephone number to payment data.
+- Fix error handling.
+
 ## [2.1.1] - 2020-04-03
 - Fixed incorrect currency symbol filter.
 - Set plugin integration name.
@@ -70,7 +74,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.1.1...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.1.2...HEAD
+[2.1.2]: https://github.com/wp-pay-extensions/charitable/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/wp-pay-extensions/charitable/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/wp-pay-extensions/charitable/compare/2.0.4...2.1.0
 [2.0.4]: https://github.com/wp-pay-extensions/charitable/compare/2.0.3...2.0.4
