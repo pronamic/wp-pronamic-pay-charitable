@@ -82,7 +82,7 @@ class PaymentData extends Pay_PaymentData {
 	 * @return string
 	 */
 	public function get_source_id() {
-		return $this->donation_id;
+		return \strval( $this->donation_id );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class PaymentData extends Pay_PaymentData {
 	 * @return string
 	 */
 	public function get_order_id() {
-		return $this->donation_id;
+		return \strval( $this->donation_id );
 	}
 
 	/**
@@ -170,77 +170,92 @@ class PaymentData extends Pay_PaymentData {
 	/**
 	 * Get email.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_email() {
-		return $this->user_data['email'];
+		if ( \array_key_exists( 'email', $this->user_data ) ) {
+			return $this->user_data['email'];
+		}
+
+		return null;
 	}
 
 	/**
 	 * Get first name.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_first_name() {
-		if ( isset( $this->user_data['first_name'] ) ) {
+		if ( \array_key_exists( 'first_name', $this->user_data ) ) {
 			return $this->user_data['first_name'];
 		}
+
+		return null;
 	}
 
 	/**
 	 * Get last name.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_last_name() {
-		if ( isset( $this->user_data['last_name'] ) ) {
+		if ( \array_key_exists( 'last_name', $this->user_data ) ) {
 			return $this->user_data['last_name'];
 		}
-	}
 
-	/**
-	 * Get customer name.
-	 *
-	 * @return string
-	 */
-	public function get_customer_name() {
-		return $this->user_data['first_name'] . ' ' . $this->user_data['last_name'];
+		return null;
 	}
 
 	/**
 	 * Get address.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_address() {
-		return $this->user_data['address'];
+		if ( \array_key_exists( 'address', $this->user_data ) ) {
+			return $this->user_data['address'];
+		}
+
+		return null;
 	}
 
 	/**
 	 * Get city.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_city() {
-		return $this->user_data['city'];
+		if ( \array_key_exists( 'city', $this->user_data ) ) {
+			return $this->user_data['city'];
+		}
+
+		return null;
 	}
 
 	/**
 	 * Get ZIP.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_zip() {
-		return $this->user_data['postcode'];
+		if ( \array_key_exists( 'postcode', $this->user_data ) ) {
+			return $this->user_data['postcode'];
+		}
+
+		return null;
 	}
 
 	/**
 	 * Get telephone number.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_telephone_number() {
-		return $this->user_data['phone'];
+		if ( \array_key_exists( 'phone', $this->user_data ) ) {
+			return $this->user_data['phone'];
+		}
+
+		return null;
 	}
 
 	/**
