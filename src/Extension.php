@@ -177,6 +177,9 @@ class Extension extends AbstractPluginIntegration {
 
 		$donation = new Charitable_Donation( $donation_id );
 
+		/* Save the transation ID */
+		$donation->set_gateway_transaction_id( $payment->get_transaction_id() );
+
 		switch ( $payment->get_status() ) {
 			case PaymentStatus::CANCELLED:
 				$donation->update_status( 'charitable-cancelled' );
