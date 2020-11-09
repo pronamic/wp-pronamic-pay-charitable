@@ -69,7 +69,7 @@ class Gateway extends Charitable_Gateway {
 			'title'    => __( 'Transaction description', 'pronamic_ideal' ),
 			'priority' => 8,
 			'default'  => __( 'Charitable donation {donation_id}', 'pronamic_ideal' ),
-			/* translators: %s: <code>{donation_id}</code> */
+			/* translators: %s: <code>{tag}</code> */
 			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code>', '{donation_id}' ) ),
 		);
 
