@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
+-
+
+## [2.2.0] - unreleased
 - Use money parser for donation amount.
+- Removed payment data class.
+- Improved user data support, set adress line 2 and country code.
 
 ## [2.1.3] - 2020-11-09
 - Improved getting user data from donation.
@@ -77,7 +82,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.1.3...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/wp-pay-extensions/charitable/compare/2.1.3...2.2.0
 [2.1.3]: https://github.com/wp-pay-extensions/charitable/compare/2.1.2...2.1.3
 [2.1.2]: https://github.com/wp-pay-extensions/charitable/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/wp-pay-extensions/charitable/compare/2.1.0...2.1.1
