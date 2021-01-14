@@ -34,8 +34,8 @@ class CharitableHelper {
 	 * @return string
 	 */
 	public static function get_title( $donation_id ) {
-		/* translators: %s: Charitable donation ID */
 		return \sprintf(
+			/* translators: %s: Charitable donation ID */
 			\__( 'Charitable donation %s', 'pronamic_ideal' ),
 			$donation_id
 		);
