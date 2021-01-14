@@ -88,38 +88,44 @@ class CharitableHelper {
 	 * Get customer from user data.
 	 */
 	public static function get_customer_from_user_data( $user_data ) {
-		return CustomerHelper::from_array( array(
-			'name'    => self::get_name_from_user_data( $user_data ),
-			'email'   => self::get_value_from_user_data( $user_data, 'email' ),
-			'phone'   => self::get_value_from_user_data( $user_data, 'phone' ),
-			'user_id' => null,
-		) );
+		return CustomerHelper::from_array(
+			array(
+				'name'    => self::get_name_from_user_data( $user_data ),
+				'email'   => self::get_value_from_user_data( $user_data, 'email' ),
+				'phone'   => self::get_value_from_user_data( $user_data, 'phone' ),
+				'user_id' => null,
+			)
+		);
 	}
 
 	/**
 	 * Get name from user data.
 	 */
 	public static function get_name_from_user_data( $user_data ) {
-		return ContactNameHelper::from_array( array(
-			'first_name' => self::get_value_from_user_data( $user_data, 'first_name' ),
-			'last_name'  => self::get_value_from_user_data( $user_data, 'last_name' ),
-		) );
+		return ContactNameHelper::from_array(
+			array(
+				'first_name' => self::get_value_from_user_data( $user_data, 'first_name' ),
+				'last_name'  => self::get_value_from_user_data( $user_data, 'last_name' ),
+			)
+		);
 	}
 
 	/**
 	 * Get address from user data.
 	 */
 	public static function get_address_from_user_data( $user_data ) {
-		return AddressHelper::from_array( array(
-			'name'         => self::get_name_from_user_data( $user_data ),
-			'line_1'       => self::get_value_from_user_data( $user_data, 'address' ),
-			'line_2'       => self::get_value_from_user_data( $user_data, 'address_2' ),
-			'postal_code'  => self::get_value_from_user_data( $user_data, 'postcode' ),
-			'city'         => self::get_value_from_user_data( $user_data, 'city' ),
-			'region'       => self::get_value_from_user_data( $user_data, 'state' ),
-			'country_code' => self::get_value_from_user_data( $user_data, 'country' ),
-			'email'        => self::get_value_from_user_data( $user_data, 'email' ),
-			'phone'        => self::get_value_from_user_data( $user_data, 'phone' ),
-		) );
+		return AddressHelper::from_array(
+			array(
+				'name'         => self::get_name_from_user_data( $user_data ),
+				'line_1'       => self::get_value_from_user_data( $user_data, 'address' ),
+				'line_2'       => self::get_value_from_user_data( $user_data, 'address_2' ),
+				'postal_code'  => self::get_value_from_user_data( $user_data, 'postcode' ),
+				'city'         => self::get_value_from_user_data( $user_data, 'city' ),
+				'region'       => self::get_value_from_user_data( $user_data, 'state' ),
+				'country_code' => self::get_value_from_user_data( $user_data, 'country' ),
+				'email'        => self::get_value_from_user_data( $user_data, 'email' ),
+				'phone'        => self::get_value_from_user_data( $user_data, 'phone' ),
+			)
+		);
 	}
 }

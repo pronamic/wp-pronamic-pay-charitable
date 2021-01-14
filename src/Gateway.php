@@ -160,7 +160,7 @@ class Gateway extends Charitable_Gateway {
 		$currency = Currency::get_instance( \charitable_get_currency() );
 
 		// Amount.
-		$payment->set_total_amount( new TaxedMoney( CharitableHelper::get_total_amount_value( $donation_id), $currency ) );
+		$payment->set_total_amount( new TaxedMoney( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
 
 		// Method.
 		$payment->method = $payment_method;
