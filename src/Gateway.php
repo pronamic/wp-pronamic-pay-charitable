@@ -4,7 +4,10 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation_Processor;
 use Charitable_Gateway;
+use Pronamic\WordPress\Money\Currency;
+use Pronamic\WordPress\Money\TaxedMoney;
 use Pronamic\WordPress\Pay\Plugin;
+use Pronamic\WordPress\Pay\Payments\Payment;
 
 /**
  * Title: Charitable gateway
@@ -119,7 +122,7 @@ class Gateway extends Charitable_Gateway {
 
 		// Use default gateway if no configuration has been set.
 		if ( '' === $config_id ) {
-			$config_id = get_option( 'pronamic_pay_config_id' );
+			$config_id = \get_option( 'pronamic_pay_config_id' );
 		}
 
 		$gateway = Plugin::get_gateway( $config_id );
@@ -129,12 +132,44 @@ class Gateway extends Charitable_Gateway {
 		}
 
 		// Data.
-		$data = new PaymentData( $donation_id, $processor, $charitable_gateway );
+		$user_data = $processor->get_donation_data_value( 'user' );
 
 		$gateway->set_payment_method( $payment_method );
 
+		/**
+		 * Build payment.
+		 */
+		$payment = new Payment();
+
+		$payment->source    = 'charitable';
+		$payment->source_id = \strval( $donation_id );
+		$payment->order_id  = \strval( $donation_id );
+
+		// Description.
+		$payment->description = CharitableHelper::get_description( $charitable_gateway, $donation_id );
+
+		$payment->title = CharitableHelper::get_title( $donation_id );
+
+		// Customer.
+		$payment->set_customer( CharitableHelper::get_customer_from_user_data( $user_data ) );
+
+		// Address.
+		$payment->set_billing_address( CharitableHelper::get_address_from_user_data( $user_data ) );
+
+		// Currency.
+		$currency = Currency::get_instance( \charitable_get_currency() );
+
+		// Amount.
+		$payment->set_total_amount( new TaxedMoney( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
+
+		// Method.
+		$payment->method = $payment_method;
+
+		// Configuration.
+		$payment->config_id = $config_id;
+
 		try {
-			$payment = Plugin::start( $config_id, $gateway, $data, $payment_method );
+			$payment = Plugin::start_payment( $payment );
 
 			$error = $gateway->get_error();
 
