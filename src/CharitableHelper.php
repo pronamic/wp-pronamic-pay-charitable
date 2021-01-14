@@ -64,18 +64,23 @@ class CharitableHelper {
 	/**
 	 * Get total amount value.
 	 *
+	 * @link https://github.com/Charitable/Charitable/blob/1.6.46/includes/abstracts/abstract-class-charitable-abstract-donation.php#L271-L287
 	 * @param int $donation_id Donation ID.
 	 * @return float
 	 */
 	public static function get_total_amount_value( $donation_id ) {
 		$donation = new Charitable_Donation( $donation_id );
 
-		// Price.
-		$money_parser = new MoneyParser();
-
-		return $money_parser->parse( $donation->get_total_donation_amount() )->get_value();
+		return $donation->get_total_donation_amount( true );
 	}
 
+	/**
+	 * Get value from user data.
+	 *
+	 * @param array $user_data User data.
+	 * @param string $key      Array key.
+	 * @return null|string
+	 */
 	public static function get_value_from_user_data( $user_data, $key ) {
 		if ( ! array_key_exists( $key, $user_data ) ) {
 			return null;
