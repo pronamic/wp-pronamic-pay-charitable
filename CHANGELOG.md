@@ -13,7 +13,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [2.2.0] - 2021-01-14
 - Use money parser for donation amount.
 - Removed payment data class.
-- Improved user data support, set adress line 2 and country code.
+- Improved user data support, set address line 2 and country code.
 
 ## [2.1.3] - 2020-11-09
 - Improved getting user data from donation.
