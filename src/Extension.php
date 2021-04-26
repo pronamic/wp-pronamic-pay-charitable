@@ -12,7 +12,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
 /**
  * Title: Charitable extension
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -177,7 +177,7 @@ class Extension extends AbstractPluginIntegration {
 
 		$donation = new Charitable_Donation( $donation_id );
 
-		/* Save the transation ID */
+		/* Save the transaction ID */
 		$donation->set_gateway_transaction_id( $payment->get_transaction_id() );
 
 		switch ( $payment->get_status() ) {
