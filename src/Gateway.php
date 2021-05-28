@@ -121,7 +121,7 @@ class Gateway extends Charitable_Gateway {
 		$config_id = $charitable_gateway->get_value( 'config_id' );
 
 		// Use default gateway if no configuration has been set.
-		if ( '' === $config_id ) {
+		if ( empty( $config_id ) ) {
 			$config_id = \get_option( 'pronamic_pay_config_id' );
 		}
 
