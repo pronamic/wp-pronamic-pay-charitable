@@ -48,6 +48,7 @@ class CharitableHelper {
 	 */
 	public static function get_description( $gateway, $donation_id ) {
 		$description = $gateway->get_value( 'transaction_description' );
+		$donation    = new Charitable_Donation( $donation_id );
 
 		if ( '' === $description ) {
 			$description = self::get_title( $donation_id );
@@ -55,7 +56,9 @@ class CharitableHelper {
 
 		// Replacements.
 		$replacements = array(
-			'{donation_id}' => $donation_id,
+			'{donation_id}'         => $donation_id,
+			'{first_campaign_name}' => reset( $donation->get_campaigns() ),
+			'{campaign_name}'       => implode( ', ', $donation->get_campaigns() ),
 		);
 
 		return \strtr( $description, $replacements );
@@ -77,7 +80,7 @@ class CharitableHelper {
 	/**
 	 * Get value from user data.
 	 *
-	 * @param array $user_data User data.
+	 * @param array  $user_data User data.
 	 * @param string $key      Array key.
 	 * @return null|string
 	 */

@@ -73,7 +73,7 @@ class Gateway extends Charitable_Gateway {
 			'priority' => 8,
 			'default'  => __( 'Charitable donation {donation_id}', 'pronamic_ideal' ),
 			/* translators: %s: <code>{tag}</code> */
-			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code>', '{donation_id}' ) ),
+			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code> <code>%s</code> <code>%s</code>', '{donation_id}', '{first_campaign_name}', '{campaign_name}' ) ),
 		);
 
 		if ( null === $this->payment_method ) {
