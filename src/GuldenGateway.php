@@ -24,19 +24,11 @@ class GuldenGateway extends Gateway {
 	const ID = 'pronamic_pay_gulden';
 
 	/**
-	 * Constructs and initialize an Gulden gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = PaymentMethods::get_name( PaymentMethods::GULDEN );
-
-		$this->defaults = array(
-			'label' => PaymentMethods::get_name( PaymentMethods::GULDEN ),
-		);
-
-		$this->payment_method = PaymentMethods::GULDEN;
-	}
+	protected $payment_method = PaymentMethods::GULDEN;
 
 	/**
 	 * Process donation.

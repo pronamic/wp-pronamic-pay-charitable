@@ -24,19 +24,11 @@ class DirectDebitGateway extends Gateway {
 	const ID = 'pronamic_pay_direct_debit';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'Direct Debit', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'Direct Debit', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::DIRECT_DEBIT;
-	}
+	protected $payment_method = PaymentMethods::DIRECT_DEBIT;
 
 	/**
 	 * Process donation.

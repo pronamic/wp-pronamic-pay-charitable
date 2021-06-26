@@ -24,19 +24,11 @@ class CreditCardGateway extends Gateway {
 	const ID = 'pronamic_pay_credit_card';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'Credit Card', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'Credit Card', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::CREDIT_CARD;
-	}
+	protected $payment_method = PaymentMethods::CREDIT_CARD;
 
 	/**
 	 * Process donation.

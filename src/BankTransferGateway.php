@@ -24,19 +24,11 @@ class BankTransferGateway extends Gateway {
 	const ID = 'pronamic_pay_bank_transfer';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'Bank Transfer', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'Bank Transfer', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::BANK_TRANSFER;
-	}
+	protected $payment_method = PaymentMethods::BANK_TRANSFER;
 
 	/**
 	 * Process donation.
