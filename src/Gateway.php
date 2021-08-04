@@ -5,7 +5,7 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 use Charitable_Donation_Processor;
 use Charitable_Gateway;
 use Pronamic\WordPress\Money\Currency;
-use Pronamic\WordPress\Money\TaxedMoney;
+use Pronamic\WordPress\Money\Money;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -170,7 +170,7 @@ class Gateway extends Charitable_Gateway {
 		$currency = Currency::get_instance( \charitable_get_currency() );
 
 		// Amount.
-		$payment->set_total_amount( new TaxedMoney( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
+		$payment->set_total_amount( new Money( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
 
 		// Method.
 		$payment->method = $payment_method;
