@@ -6,39 +6,38 @@ use Charitable_Donation_Processor;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 
 /**
- * Title: Charitable Bank Transfer gateway
+ * Title: Charitable PayPal gateway
  * Description:
  * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
- * @author  Remco Tolsma
- * @version 2.0.0
- * @since   1.0.0
+ * @author  Reüel van der Steege
+ * @version 2.3.0
+ * @since   2.3.0
  */
-class BankTransferGateway extends Gateway {
+class PayPalGateway extends Gateway {
 	/**
 	 * The unique ID of this payment gateway
 	 *
 	 * @var string
 	 */
-	const ID = 'pronamic_pay_bank_transfer';
+	const ID = 'pronamic_pay_paypal';
 
 	/**
 	 * Payment method.
 	 *
 	 * @var string
 	 */
-	protected $payment_method = PaymentMethods::BANK_TRANSFER;
+	protected $payment_method = PaymentMethods::PAYPAL;
 
 	/**
 	 * Process donation.
 	 *
-	 * @since   1.0.2
+	 * @since   2.3.0
 	 *
 	 * @param bool|array                    $return      Return.
 	 * @param int                           $donation_id Donation ID.
 	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
-	 *
 	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
@@ -48,10 +47,8 @@ class BankTransferGateway extends Gateway {
 	/**
 	 * Returns the current gateway's ID.
 	 *
-	 * @return  string
-	 * @access  public
-	 * @static
-	 * @since   1.0.3
+	 * @return string
+	 * @since  2.3.0
 	 */
 	public static function get_gateway_id() {
 		return self::ID;

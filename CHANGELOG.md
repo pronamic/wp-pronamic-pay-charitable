@@ -7,6 +7,14 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [3.0.0] - 2021-08-05
+- Simplified gateway registration.
+- Added support for PayPal payment method.
+- Updated to `pronamic/wp-pay-core`  version `3.0.0`.
+- Updated to `pronamic/wp-money`  version `2.0.0`.
+- Changed `TaxedMoney` to `Money`, no tax info.
+- Switched to `pronamic/wp-coding-standards`.
+
 ## [2.2.3] - 2021-05-28
 - Improve using default gateway configuration.
 
@@ -91,7 +99,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/2.2.3...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/wp-pay-extensions/charitable/compare/2.2.3...3.0.0
 [2.2.3]: https://github.com/wp-pay-extensions/charitable/compare/2.2.2...2.2.3
 [2.2.2]: https://github.com/wp-pay-extensions/charitable/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/wp-pay-extensions/charitable/compare/2.2.0...2.2.1

@@ -5,7 +5,8 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 use Charitable_Donation_Processor;
 use Charitable_Gateway;
 use Pronamic\WordPress\Money\Currency;
-use Pronamic\WordPress\Money\TaxedMoney;
+use Pronamic\WordPress\Money\Money;
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
@@ -38,10 +39,19 @@ class Gateway extends Charitable_Gateway {
 	 * Constructs and initialize an iDEAL gateway
 	 */
 	public function __construct() {
+		// Name.
 		$this->name = __( 'Pronamic', 'pronamic_ideal' );
 
+		if ( null !== $this->payment_method ) {
+			$this->name = \sprintf(
+				'%s - %s',
+				$this->name,
+				PaymentMethods::get_name( $this->payment_method )
+			);
+		}
+
 		$this->defaults = array(
-			'label' => __( 'Pronamic', 'pronamic_ideal' ),
+			'label' => PaymentMethods::get_name( $this->payment_method, \__( 'Pronamic', 'pronamic_ideal' ) ),
 		);
 
 		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/gateways/class-charitable-gateway-paypal.php#L41-L44
@@ -160,7 +170,7 @@ class Gateway extends Charitable_Gateway {
 		$currency = Currency::get_instance( \charitable_get_currency() );
 
 		// Amount.
-		$payment->set_total_amount( new TaxedMoney( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
+		$payment->set_total_amount( new Money( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
 
 		// Method.
 		$payment->method = $payment_method;
