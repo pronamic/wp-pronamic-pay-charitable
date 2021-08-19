@@ -87,6 +87,10 @@ class Extension extends AbstractPluginIntegration {
 			'CreditCardGateway',
 		);
 
+		if ( PaymentMethods::is_active( PaymentMethods::PAYPAL ) ) {
+			$classes[] = 'PayPalGateway';
+		}
+
 		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
 			$classes[] = 'GuldenGateway';
 		}

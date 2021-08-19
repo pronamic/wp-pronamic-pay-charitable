@@ -24,19 +24,11 @@ class BancontactGateway extends Gateway {
 	const ID = 'pronamic_pay_mister_cash';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'Bancontact', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'Bancontact', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::BANCONTACT;
-	}
+	protected $payment_method = PaymentMethods::BANCONTACT;
 
 	/**
 	 * Process donation.

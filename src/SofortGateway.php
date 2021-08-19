@@ -24,19 +24,11 @@ class SofortGateway extends Gateway {
 	const ID = 'pronamic_pay_sofort';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'SOFORT Banking', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'SOFORT Banking', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::SOFORT;
-	}
+	protected $payment_method = PaymentMethods::SOFORT;
 
 	/**
 	 * Process donation.

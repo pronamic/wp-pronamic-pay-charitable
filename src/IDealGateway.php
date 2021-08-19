@@ -26,19 +26,11 @@ class IDealGateway extends Gateway {
 	const ID = 'pronamic_pay_ideal';
 
 	/**
-	 * Constructs and initialize an iDEAL gateway
+	 * Payment method.
+	 *
+	 * @var string
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->name = __( 'iDEAL', 'pronamic_ideal' );
-
-		$this->defaults = array(
-			'label' => __( 'iDEAL', 'pronamic_ideal' ),
-		);
-
-		$this->payment_method = PaymentMethods::IDEAL;
-	}
+	protected $payment_method = PaymentMethods::IDEAL;
 
 	/**
 	 * Process donation.
