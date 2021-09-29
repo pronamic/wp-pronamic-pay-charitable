@@ -13,7 +13,6 @@ namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 use Charitable_Donation;
 use Charitable_Donation_Processor;
 use Charitable_Gateway;
-use Pronamic\WordPress\Money\Parser as MoneyParser;
 use Pronamic\WordPress\Pay\Address;
 use Pronamic\WordPress\Pay\AddressHelper;
 use Pronamic\WordPress\Pay\ContactName;
