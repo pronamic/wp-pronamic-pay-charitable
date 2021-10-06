@@ -156,7 +156,7 @@ class Gateway extends Charitable_Gateway {
 		$payment->order_id  = \strval( $donation_id );
 
 		// Description.
-		$payment->description = CharitableHelper::get_description( $charitable_gateway, $donation_id );
+		$payment->set_description( CharitableHelper::get_description( $charitable_gateway, $donation_id ) );
 
 		$payment->title = CharitableHelper::get_title( $donation_id );
 
