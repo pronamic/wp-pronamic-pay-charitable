@@ -173,7 +173,7 @@ class Gateway extends Charitable_Gateway {
 		$payment->set_total_amount( new Money( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
 
 		// Method.
-		$payment->method = $payment_method;
+		$payment->set_payment_method( $payment_method );
 
 		// Configuration.
 		$payment->config_id = $config_id;
