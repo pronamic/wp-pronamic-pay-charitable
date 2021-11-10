@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [3.0.1] - 2021-09-16
+- Fixed capitalization of PayPal gateway filename for case-sensitive filesystems.
+
 ## [3.0.0] - 2021-08-05
 - Simplified gateway registration.
 - Added support for PayPal payment method.
@@ -99,7 +102,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/3.0.0...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/3.0.1...HEAD
+[3.0.1]: https://github.com/wp-pay-extensions/charitable/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/wp-pay-extensions/charitable/compare/2.2.3...3.0.0
 [2.2.3]: https://github.com/wp-pay-extensions/charitable/compare/2.2.2...2.2.3
 [2.2.2]: https://github.com/wp-pay-extensions/charitable/compare/2.2.1...2.2.2
