@@ -11,13 +11,9 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
-use Charitable_Donation_Processor;
 use Charitable_Gateway;
-use Pronamic\WordPress\Pay\Address;
 use Pronamic\WordPress\Pay\AddressHelper;
-use Pronamic\WordPress\Pay\ContactName;
 use Pronamic\WordPress\Pay\ContactNameHelper;
-use Pronamic\WordPress\Pay\Customer;
 use Pronamic\WordPress\Pay\CustomerHelper;
 
 /**
@@ -30,6 +26,7 @@ class CharitableHelper {
 	/**
 	 * Get description.
 	 *
+	 * @param int $donation_id Donation ID.
 	 * @return string
 	 */
 	public static function get_title( $donation_id ) {
@@ -43,6 +40,8 @@ class CharitableHelper {
 	/**
 	 * Get description.
 	 *
+	 * @param Charitable_Gateway $gateway     Charitable gateway.
+	 * @param int                $donation_id Donation ID.
 	 * @return string
 	 */
 	public static function get_description( $gateway, $donation_id ) {
@@ -54,10 +53,12 @@ class CharitableHelper {
 		}
 
 		// Replacements.
+		$campaigns = $donation->get_campaigns();
+
 		$replacements = array(
 			'{donation_id}'         => $donation_id,
-			'{first_campaign_name}' => reset( $donation->get_campaigns() ),
-			'{campaign_name}'       => implode( ', ', $donation->get_campaigns() ),
+			'{first_campaign_name}' => reset( $campaigns ),
+			'{campaign_name}'       => implode( ', ', $campaigns ),
 		);
 
 		return \strtr( $description, $replacements );
@@ -79,8 +80,8 @@ class CharitableHelper {
 	/**
 	 * Get value from user data.
 	 *
-	 * @param array  $user_data User data.
-	 * @param string $key      Array key.
+	 * @param array<string, mixed> $user_data User data.
+	 * @param string               $key       Array key.
 	 * @return null|string
 	 */
 	public static function get_value_from_user_data( $user_data, $key ) {
@@ -93,6 +94,9 @@ class CharitableHelper {
 
 	/**
 	 * Get customer from user data.
+	 *
+	 * @param array<string, mixed> $user_data User data.
+	 * @return \Pronamic\WordPress\Pay\Customer|null
 	 */
 	public static function get_customer_from_user_data( $user_data ) {
 		return CustomerHelper::from_array(
@@ -107,6 +111,9 @@ class CharitableHelper {
 
 	/**
 	 * Get name from user data.
+	 *
+	 * @param array<string, mixed> $user_data User data.
+	 * @return \Pronamic\WordPress\Pay\ContactName|null
 	 */
 	public static function get_name_from_user_data( $user_data ) {
 		return ContactNameHelper::from_array(
@@ -119,6 +126,9 @@ class CharitableHelper {
 
 	/**
 	 * Get address from user data.
+	 *
+	 * @param array<string, mixed> $user_data User data.
+	 * @return \Pronamic\WordPress\Pay\Address|null
 	 */
 	public static function get_address_from_user_data( $user_data ) {
 		return AddressHelper::from_array(
