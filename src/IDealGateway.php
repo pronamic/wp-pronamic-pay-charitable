@@ -1,16 +1,26 @@
 <?php
+/**
+ * IDEAL gateway.
+ *
+ * @author    Pronamic <info@pronamic.eu>
+ * @copyright 2005-2022 Pronamic
+ * @license   GPL-3.0-or-later
+ * @package   Pronamic\WordPress\Pay
+ */
 
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation_Processor;
+use Charitable_Form;
 use Charitable_Gateway;
+use Charitable_Template;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Charitable iDEAL gateway
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -63,14 +73,14 @@ class IDealGateway extends Gateway {
 			return $fields;
 		}
 
-		$payment_method = $gateway->payment_method;
-
 		$config_id = $gateway->get_value( 'config_id' );
 
 		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
-			$gateway->set_payment_method( $payment_method );
+			if ( \property_exists( $gateway, 'payment_method' ) ) {
+				$gateway->set_payment_method( $gateway->payment_method );
+			}
 
 			$fields['pronamic-pay-input-html'] = array(
 				'type'    => '',
@@ -99,7 +109,7 @@ class IDealGateway extends Gateway {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $field['gateway']->get_input_html();
 
-			return;
+			return false;
 		}
 
 		return $template;

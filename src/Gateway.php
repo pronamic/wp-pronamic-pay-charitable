@@ -1,4 +1,12 @@
 <?php
+/**
+ * Gateway.
+ *
+ * @author    Pronamic <info@pronamic.eu>
+ * @copyright 2005-2022 Pronamic
+ * @license   GPL-3.0-or-later
+ * @package   Pronamic\WordPress\Pay
+ */
 
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
@@ -13,7 +21,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
 /**
  * Title: Charitable gateway
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -83,7 +91,7 @@ class Gateway extends Charitable_Gateway {
 			'priority' => 8,
 			'default'  => __( 'Charitable donation {donation_id}', 'pronamic_ideal' ),
 			/* translators: %s: <code>{tag}</code> */
-			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code>', '{donation_id}' ) ),
+			'help'     => sprintf( __( 'Available tags: %s', 'pronamic_ideal' ), sprintf( '<code>%s</code> <code>%s</code> <code>%s</code>', '{donation_id}', '{first_campaign_name}', '{campaign_name}' ) ),
 		);
 
 		if ( null === $this->payment_method ) {
@@ -156,7 +164,7 @@ class Gateway extends Charitable_Gateway {
 		$payment->order_id  = \strval( $donation_id );
 
 		// Description.
-		$payment->description = CharitableHelper::get_description( $charitable_gateway, $donation_id );
+		$payment->set_description( CharitableHelper::get_description( $charitable_gateway, $donation_id ) );
 
 		$payment->title = CharitableHelper::get_title( $donation_id );
 
@@ -173,7 +181,7 @@ class Gateway extends Charitable_Gateway {
 		$payment->set_total_amount( new Money( CharitableHelper::get_total_amount_value( $donation_id ), $currency ) );
 
 		// Method.
-		$payment->method = $payment_method;
+		$payment->set_payment_method( $payment_method );
 
 		// Configuration.
 		$payment->config_id = $config_id;
