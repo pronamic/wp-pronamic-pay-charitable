@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.0.0] - 2022-01-10
+- Updated to https://github.com/pronamic/wp-pay-core/releases/tag/4.0.0.
+
 ## [3.0.1] - 2021-09-16
 - Fixed capitalization of PayPal gateway filename for case-sensitive filesystems.
 
@@ -102,7 +105,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/3.0.1...HEAD
+[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/wp-pay-extensions/charitable/compare/3.0.1...4.0.0
 [3.0.1]: https://github.com/wp-pay-extensions/charitable/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/wp-pay-extensions/charitable/compare/2.2.3...3.0.0
 [2.2.3]: https://github.com/wp-pay-extensions/charitable/compare/2.2.2...2.2.3
