@@ -1,4 +1,12 @@
 <?php
+/**
+ * Extension.
+ *
+ * @author    Pronamic <info@pronamic.eu>
+ * @copyright 2005-2022 Pronamic
+ * @license   GPL-3.0-or-later
+ * @package   Pronamic\WordPress\Pay
+ */
 
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
@@ -12,7 +20,7 @@ use Pronamic\WordPress\Pay\Payments\Payment;
 /**
  * Title: Charitable extension
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
@@ -75,10 +83,8 @@ class Extension extends AbstractPluginIntegration {
 	 * Charitable payments gateways.
 	 *
 	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateways.php#L44-L51
-	 *
-	 * @param array $gateways Gateways.
-	 *
-	 * @return array
+	 * @param array<string, string> $gateways Gateways.
+	 * @return array<string, string>
 	 */
 	public function charitable_payment_gateways( $gateways ) {
 		$classes = array(
@@ -98,7 +104,11 @@ class Extension extends AbstractPluginIntegration {
 		foreach ( $classes as $class ) {
 			$class = __NAMESPACE__ . '\\' . $class;
 
-			$id = call_user_func( array( $class, 'get_gateway_id' ) );
+			$id = (string) call_user_func( array( $class, 'get_gateway_id' ) );
+
+			if ( empty( $id ) ) {
+				continue;
+			}
 
 			$gateways[ $id ] = $class;
 
@@ -124,9 +134,7 @@ class Extension extends AbstractPluginIntegration {
 	 * Get the default return URL.
 	 *
 	 * @since 1.0.3
-	 *
 	 * @param Charitable_Donation $donation Donation.
-	 *
 	 * @return string URL
 	 */
 	private static function get_return_url( Charitable_Donation $donation ) {
@@ -137,7 +145,11 @@ class Extension extends AbstractPluginIntegration {
 		$campaign = reset( $donations );
 
 		if ( false !== $campaign ) {
-			$url = get_permalink( $campaign->campaign_id );
+			$permalink = get_permalink( $campaign->campaign_id );
+
+			if ( false !== $permalink ) {
+				$url = $permalink;
+			}
 		}
 
 		return $url;
@@ -176,6 +188,7 @@ class Extension extends AbstractPluginIntegration {
 	 * @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/gateways/class-charitable-gateway-paypal.php#L229-L357
 	 *
 	 * @param Payment $payment Payment.
+	 * @return void
 	 */
 	public function status_update( Payment $payment ) {
 		$donation_id = $payment->get_source_id();
@@ -258,9 +271,8 @@ class Extension extends AbstractPluginIntegration {
 	/**
 	 * Filter currencies.
 	 *
-	 * @param array $currencies Available currencies.
-	 *
-	 * @return mixed
+	 * @param array<string, string> $currencies Available currencies.
+	 * @return array<string, string>
 	 */
 	public function currencies( $currencies ) {
 		if ( ! is_array( $currencies ) ) {
@@ -303,7 +315,7 @@ class Extension extends AbstractPluginIntegration {
 
 		$text .= sprintf(
 			'<a href="%s">%s</a>',
-			get_edit_post_link( $payment->source_id ),
+			get_edit_post_link( (int) $payment->source_id ),
 			/* translators: %s: source id */
 			sprintf( __( 'Donation %s', 'pronamic_ideal' ), $payment->source_id )
 		);
@@ -332,7 +344,7 @@ class Extension extends AbstractPluginIntegration {
 	 * @return null|string
 	 */
 	public function source_url( $url, Payment $payment ) {
-		return get_edit_post_link( $payment->source_id );
+		return get_edit_post_link( (int) $payment->source_id );
 	}
 
 	/**
