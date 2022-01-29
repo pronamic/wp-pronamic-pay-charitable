@@ -213,7 +213,7 @@ class CharitableHelper {
 		// Subscription.
 		$subscription = new Subscription();
 
-		$subscription->description = $description;
+		$subscription->set_description( $description );
 
 		// Phase.
 		$phase = new SubscriptionPhase(
