@@ -195,7 +195,7 @@ class Gateway extends Charitable_Gateway {
 		$payment->config_id = $config_id;
 
 		// Subscription
-		$subscription                    = CharitableHelper::get_subscription( $processor, $payment->subscription_source_id, $payment->description, $payment->get_total_amount() );
+		$subscription                    = CharitableHelper::get_subscription( $processor, $payment->subscription_source_id, $payment->get_description(), $payment->get_total_amount() );
 		if ( isset( $subscription ) ) {
 			$period = $subscription->new_period();
 			if ( null !== $period ) {
