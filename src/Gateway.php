@@ -188,12 +188,6 @@ class Gateway extends Charitable_Gateway {
 
 		try {
 			$payment = Plugin::start_payment( $payment );
-
-			$error = $gateway->get_error();
-
-			if ( is_wp_error( $error ) ) {
-				throw new \Exception( $error->get_error_message() );
-			}
 		} catch ( \Exception $e ) {
 			charitable_get_notices()->add_error( Plugin::get_default_error_message() );
 			charitable_get_notices()->add_error( $e->getMessage() );
