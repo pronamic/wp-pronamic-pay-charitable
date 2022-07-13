@@ -152,8 +152,6 @@ class Gateway extends Charitable_Gateway {
 		// Data.
 		$user_data = $processor->get_donation_data_value( 'user' );
 
-		$gateway->set_payment_method( $payment_method );
-
 		/**
 		 * Build payment.
 		 */
