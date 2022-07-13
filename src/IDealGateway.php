@@ -78,10 +78,6 @@ class IDealGateway extends Gateway {
 		$gateway = Plugin::get_gateway( $config_id );
 
 		if ( $gateway ) {
-			if ( \property_exists( $gateway, 'payment_method' ) ) {
-				$gateway->set_payment_method( $gateway->payment_method );
-			}
-
 			$fields['pronamic-pay-input-html'] = array(
 				'type'    => '',
 				'gateway' => $gateway,
