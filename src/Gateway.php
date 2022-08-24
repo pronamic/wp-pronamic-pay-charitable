@@ -152,8 +152,6 @@ class Gateway extends Charitable_Gateway {
 		// Data.
 		$user_data = $processor->get_donation_data_value( 'user' );
 
-		$gateway->set_payment_method( $payment_method );
-
 		/**
 		 * Build payment.
 		 */
@@ -211,5 +209,78 @@ class Gateway extends Charitable_Gateway {
 	 */
 	public static function get_gateway_id() {
 		return self::ID;
+	}
+
+	/**
+	 * Form gateway fields.
+	 *
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+	 * @since 1.0.2
+	 *
+	 * @param array              $fields  Fields.
+	 * @param Charitable_Gateway $gateway Gateway.
+	 *
+	 * @return array
+	 */
+	public static function form_gateway_fields( $fields, $gateway ) {
+		if ( get_class() !== get_class( $gateway ) ) {
+			return $fields;
+		}
+
+		$config_id = $gateway->get_value( 'config_id' );
+
+		$gateway = Plugin::get_gateway( $config_id );
+
+		if ( null === $gateway ) {
+			return $fields;
+		}
+
+		$payment_method = $gateway->get_payment_method( $this->payment_method );
+
+		if ( null === $payment_method ) {
+			return $fields;
+		}
+
+		$pronamic_fields = $payment_method->get_fields();
+
+		foreach ( $pronamic_fields as $field ) {
+			$fields[] = [
+				'type'               => 'pronamic_pay_field',
+				'pronamic_pay_field' => $field,
+			];
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Form gateway field template.
+	 *
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+	 * @since 1.0.2
+	 *
+	 * @param false|Charitable_Template $template False by default.
+	 * @param array                     $field    Field definition.
+	 * @param Charitable_Form           $form     The Charitable_Form object.
+	 * @param int                       $index    The current index.
+	 *
+	 * @return string|false
+	 */
+	public static function form_field_template( $template, $field, $form, $index ) {
+		if ( ! \array_key_exists( 'type', $field ) ) {
+			return $template;
+		}
+
+		if ( 'pronamic_pay_field' !== $field['type'] ) {
+			return $template;
+		}
+
+		if ( ! \array_key_exists( 'pronamic_pay_field', $field ) ) {
+			return $template;
+		}
+
+		$field['pronamic_pay_field']->output();
+
+		return false;
 	}
 }

@@ -58,64 +58,6 @@ class IDealGateway extends Gateway {
 	}
 
 	/**
-	 * Form gateway fields.
-	 *
-	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
-	 * @since 1.0.2
-	 *
-	 * @param array              $fields  Fields.
-	 * @param Charitable_Gateway $gateway Gateway.
-	 *
-	 * @return array
-	 */
-	public static function form_gateway_fields( $fields, $gateway ) {
-		if ( get_class() !== get_class( $gateway ) ) {
-			return $fields;
-		}
-
-		$config_id = $gateway->get_value( 'config_id' );
-
-		$gateway = Plugin::get_gateway( $config_id );
-
-		if ( $gateway ) {
-			if ( \property_exists( $gateway, 'payment_method' ) ) {
-				$gateway->set_payment_method( $gateway->payment_method );
-			}
-
-			$fields['pronamic-pay-input-html'] = array(
-				'type'    => '',
-				'gateway' => $gateway,
-			);
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * Form gateway field template.
-	 *
-	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
-	 * @since 1.0.2
-	 *
-	 * @param false|Charitable_Template $template False by default.
-	 * @param array                     $field    Field definition.
-	 * @param Charitable_Form           $form     The Charitable_Form object.
-	 * @param int                       $index    The current index.
-	 *
-	 * @return string
-	 */
-	public static function form_field_template( $template, $field, $form, $index ) {
-		if ( 'pronamic-pay-input-html' === $field['key'] ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $field['gateway']->get_input_html();
-
-			return false;
-		}
-
-		return $template;
-	}
-
-	/**
 	 * Returns the current gateway's ID.
 	 *
 	 * @return  string
