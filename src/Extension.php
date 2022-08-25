@@ -70,10 +70,6 @@ class Extension extends AbstractPluginIntegration {
 		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'status_update' ), 10 );
 
 		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
-
-		// Currencies.
-		add_filter( 'charitable_currencies', array( $this, 'currencies' ), 10, 1 );
-		add_filter( 'charitable_currency_symbol', array( $this, 'currency_symbol' ), 10, 2 );
 	}
 
 	/**
@@ -96,10 +92,6 @@ class Extension extends AbstractPluginIntegration {
 
 		if ( PaymentMethods::is_active( PaymentMethods::PAYPAL ) ) {
 			$classes[] = 'PayPalGateway';
-		}
-
-		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
-			$classes[] = 'GuldenGateway';
 		}
 
 		foreach ( $classes as $class ) {
@@ -220,40 +212,6 @@ class Extension extends AbstractPluginIntegration {
 
 				break;
 		}
-	}
-
-	/**
-	 * Filter currencies.
-	 *
-	 * @param array<string, string> $currencies Available currencies.
-	 * @return array<string, string>
-	 */
-	public function currencies( $currencies ) {
-		if ( ! is_array( $currencies ) ) {
-			return $currencies;
-		}
-
-		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
-			$currencies['NLG'] = PaymentMethods::get_name( PaymentMethods::GULDEN ) . ' (G)';
-		}
-
-		return $currencies;
-	}
-
-	/**
-	 * Filter currency symbol.
-	 *
-	 * @param string $symbol   Symbol.
-	 * @param string $currency Currency.
-	 *
-	 * @return string
-	 */
-	public function currency_symbol( $symbol, $currency ) {
-		if ( 'NLG' === $currency ) {
-			$symbol = 'G';
-		}
-
-		return $symbol;
 	}
 
 	/**
