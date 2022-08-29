@@ -106,6 +106,26 @@ class Gateway extends Charitable_Gateway {
 		return $settings;
 	}
 
+	public function get_pronamic_payment_method() {
+		return $this->payment_method;
+	}
+
+	/**
+	 * Get Pronamic gateway configuration ID.
+	 * 
+	 * @return int|null
+	 */
+	public function get_pronamic_config_id() {
+		$config_id = $this->get_value( 'config_id' );
+
+		// Use default gateway if no configuration has been set.
+		if ( empty( $config_id ) ) {
+			$config_id = \get_option( 'pronamic_pay_config_id' );
+		}
+
+		return $config_id;
+	}
+
 	/**
 	 * Process donation.
 	 *
@@ -118,7 +138,7 @@ class Gateway extends Charitable_Gateway {
 	 * @return bool|array
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
-		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
+		return self::pronamic_process_donation( $return, $donation_id, $processor, new static() );
 	}
 
 	/**
@@ -136,12 +156,7 @@ class Gateway extends Charitable_Gateway {
 	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Charitable_Gateway $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;
 
-		$config_id = $charitable_gateway->get_value( 'config_id' );
-
-		// Use default gateway if no configuration has been set.
-		if ( empty( $config_id ) ) {
-			$config_id = \get_option( 'pronamic_pay_config_id' );
-		}
+		$config_id = $charitable_gateway->get_pronamic_config_id();
 
 		$gateway = Plugin::get_gateway( $config_id );
 
@@ -202,85 +217,11 @@ class Gateway extends Charitable_Gateway {
 	/**
 	 * Returns the current gateway's ID.
 	 *
-	 * @return  string
-	 * @access  public
-	 * @static
-	 * @since   1.0.3
+	 * @since  1.0.3
+	 *
+	 * @return string
 	 */
 	public static function get_gateway_id() {
-		return self::ID;
-	}
-
-	/**
-	 * Form gateway fields.
-	 *
-	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
-	 * @since 1.0.2
-	 *
-	 * @param array              $fields  Fields.
-	 * @param Charitable_Gateway $gateway Gateway.
-	 *
-	 * @return array
-	 */
-	public static function form_gateway_fields( $fields, $gateway ) {
-		if ( get_class() !== get_class( $gateway ) ) {
-			return $fields;
-		}
-
-		$config_id = $gateway->get_value( 'config_id' );
-
-		$gateway = Plugin::get_gateway( $config_id );
-
-		if ( null === $gateway ) {
-			return $fields;
-		}
-
-		$payment_method = $gateway->get_payment_method( $this->payment_method );
-
-		if ( null === $payment_method ) {
-			return $fields;
-		}
-
-		$pronamic_fields = $payment_method->get_fields();
-
-		foreach ( $pronamic_fields as $field ) {
-			$fields[] = [
-				'type'               => 'pronamic_pay_field',
-				'pronamic_pay_field' => $field,
-			];
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * Form gateway field template.
-	 *
-	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
-	 * @since 1.0.2
-	 *
-	 * @param false|Charitable_Template $template False by default.
-	 * @param array                     $field    Field definition.
-	 * @param Charitable_Form           $form     The Charitable_Form object.
-	 * @param int                       $index    The current index.
-	 *
-	 * @return string|false
-	 */
-	public static function form_field_template( $template, $field, $form, $index ) {
-		if ( ! \array_key_exists( 'type', $field ) ) {
-			return $template;
-		}
-
-		if ( 'pronamic_pay_field' !== $field['type'] ) {
-			return $template;
-		}
-
-		if ( ! \array_key_exists( 'pronamic_pay_field', $field ) ) {
-			return $template;
-		}
-
-		$field['pronamic_pay_field']->output();
-
-		return false;
+		return static::ID;
 	}
 }
