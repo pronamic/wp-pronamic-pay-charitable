@@ -28,6 +28,12 @@
 add_filter(
 	'pronamic_pay_plugin_integrations',
 	function ( $integrations ) {
+        foreach ( $integrations as $integration ) {
+            if ( $integration instanceof \Pronamic\WordPress\Pay\Extensions\Charitable\Extension ) {
+                return $integrations;
+            }
+        }
+
 		$integrations[] = new \Pronamic\WordPress\Pay\Extensions\Charitable\Extension();
 
 		return $integrations;
