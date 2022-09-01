@@ -41,9 +41,9 @@ class Extension extends AbstractPluginIntegration {
 	 */
 	public function __construct() {
 		parent::__construct(
-			array(
+			[
 				'name' => __( 'Charitable', 'pronamic_ideal' ),
-			)
+			]
 		);
 
 		// Dependencies.
@@ -58,25 +58,25 @@ class Extension extends AbstractPluginIntegration {
 	 * @return void
 	 */
 	public function setup() {
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, [ $this, 'source_text' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, [ $this, 'source_description' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, [ $this, 'source_url' ], 10, 2 );
 
 		// Check if dependencies are met and integration is active.
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( $this, 'redirect_url' ), 10, 2 );
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'status_update' ), 10 );
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, [ $this, 'redirect_url' ], 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, [ $this, 'status_update' ], 10 );
 
-		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
+		add_filter( 'charitable_payment_gateways', [ $this, 'charitable_payment_gateways' ] );
 
 		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
-		\add_filter( 'charitable_donation_form_gateway_fields', array( $this, 'form_gateway_fields' ), 10, 2 );
+		\add_filter( 'charitable_donation_form_gateway_fields', [ $this, 'form_gateway_fields' ], 10, 2 );
 
 		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
-		\add_filter( 'charitable_form_field_template', array( $this, 'form_field_template' ), 10, 4 );
+		\add_filter( 'charitable_form_field_template', [ $this, 'form_field_template' ], 10, 4 );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Extension extends AbstractPluginIntegration {
 	 * @return array<string, string>
 	 */
 	public function charitable_payment_gateways( $gateways ) {
-		$classes = array(
+		$classes = [
 			Gateway::class,
 			BankTransferGateway::class,
 			CreditCardGateway::class,
@@ -168,7 +168,7 @@ class Extension extends AbstractPluginIntegration {
 			IDealGateway::class,
 			BancontactGateway::class,
 			SofortGateway::class,
-		);
+		];
 
 		if ( PaymentMethods::is_active( PaymentMethods::PAYPAL ) ) {
 			$classes[] = PayPalGateway::class;
@@ -181,7 +181,7 @@ class Extension extends AbstractPluginIntegration {
 
 			// @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
 			// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
-			\add_filter( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 3 );
+			\add_filter( 'charitable_process_donation_' . $id, [ $class, 'process_donation' ], 10, 3 );
 		}
 
 		return $gateways;
@@ -229,7 +229,7 @@ class Extension extends AbstractPluginIntegration {
 
 		switch ( $payment->get_status() ) {
 			case PaymentStatus::SUCCESS:
-				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
+				$url = charitable_get_permalink( 'donation_receipt_page', [ 'donation_id' => $donation_id ] );
 
 				break;
 		}
