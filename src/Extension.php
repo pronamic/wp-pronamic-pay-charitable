@@ -16,6 +16,7 @@ use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Core\Util as Core_Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: Charitable extension
@@ -40,9 +41,9 @@ class Extension extends AbstractPluginIntegration {
 	 */
 	public function __construct() {
 		parent::__construct(
-			array(
+			[
 				'name' => __( 'Charitable', 'pronamic_ideal' ),
-			)
+			]
 		);
 
 		// Dependencies.
@@ -57,23 +58,99 @@ class Extension extends AbstractPluginIntegration {
 	 * @return void
 	 */
 	public function setup() {
-		add_filter( 'pronamic_payment_source_text_' . self::SLUG, array( $this, 'source_text' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_description_' . self::SLUG, array( $this, 'source_description' ), 10, 2 );
-		add_filter( 'pronamic_payment_source_url_' . self::SLUG, array( $this, 'source_url' ), 10, 2 );
+		add_filter( 'pronamic_payment_source_text_' . self::SLUG, [ $this, 'source_text' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_description_' . self::SLUG, [ $this, 'source_description' ], 10, 2 );
+		add_filter( 'pronamic_payment_source_url_' . self::SLUG, [ $this, 'source_url' ], 10, 2 );
 
 		// Check if dependencies are met and integration is active.
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, array( $this, 'redirect_url' ), 10, 2 );
-		add_action( 'pronamic_payment_status_update_' . self::SLUG, array( $this, 'status_update' ), 10 );
+		add_filter( 'pronamic_payment_redirect_url_' . self::SLUG, [ $this, 'redirect_url' ], 10, 2 );
+		add_action( 'pronamic_payment_status_update_' . self::SLUG, [ $this, 'status_update' ], 10 );
 
-		add_filter( 'charitable_payment_gateways', array( $this, 'charitable_payment_gateways' ) );
+		add_filter( 'charitable_payment_gateways', [ $this, 'charitable_payment_gateways' ] );
 
-		// Currencies.
-		add_filter( 'charitable_currencies', array( $this, 'currencies' ), 10, 1 );
-		add_filter( 'charitable_currency_symbol', array( $this, 'currency_symbol' ), 10, 2 );
+		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+		\add_filter( 'charitable_donation_form_gateway_fields', [ $this, 'form_gateway_fields' ], 10, 2 );
+
+		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+		\add_filter( 'charitable_form_field_template', [ $this, 'form_field_template' ], 10, 4 );
+	}
+
+	/**
+	 * Form gateway fields.
+	 *
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
+	 * @since 1.0.2
+	 *
+	 * @param array              $fields  Fields.
+	 * @param Charitable_Gateway $gateway Gateway.
+	 *
+	 * @return array
+	 */
+	public static function form_gateway_fields( $fields, $charitable_gateway ) {
+		if ( ! $charitable_gateway instanceof Gateway ) {
+			return $fields;
+		}
+
+		$config_id = $charitable_gateway->get_pronamic_config_id();
+
+		$gateway = Plugin::get_gateway( $config_id );
+
+		if ( null === $gateway ) {
+			return $fields;
+		}
+
+		$payment_method = $gateway->get_payment_method( $charitable_gateway->get_pronamic_payment_method() );
+
+		if ( null === $payment_method ) {
+			return $fields;
+		}
+
+		$pronamic_fields = $payment_method->get_fields();
+
+		foreach ( $pronamic_fields as $field ) {
+			$fields[] = [
+				'type'               => 'pronamic_pay_field',
+				'pronamic_pay_field' => $field->render(),
+			];
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Form gateway field template.
+	 *
+	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
+	 * @since 1.0.2
+	 *
+	 * @param false|Charitable_Template $template False by default.
+	 * @param array                     $field    Field definition.
+	 * @param Charitable_Form           $form     The Charitable_Form object.
+	 * @param int                       $index    The current index.
+	 *
+	 * @return string|false
+	 */
+	public static function form_field_template( $template, $field, $form, $index ) {
+		if ( ! \array_key_exists( 'type', $field ) ) {
+			return $template;
+		}
+
+		if ( 'pronamic_pay_field' !== $field['type'] ) {
+			return $template;
+		}
+
+		if ( ! \array_key_exists( 'pronamic_pay_field', $field ) ) {
+			return $template;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $field['pronamic_pay_field'];
+
+		return false;
 	}
 
 	/**
@@ -84,48 +161,28 @@ class Extension extends AbstractPluginIntegration {
 	 * @return array<string, string>
 	 */
 	public function charitable_payment_gateways( $gateways ) {
-		$classes = array(
-			'Gateway',
-			'BankTransferGateway',
-			'CreditCardGateway',
-			'DirectDebitGateway',
-			'IDealGateway',
-			'BancontactGateway',
-			'SofortGateway',
-		);
+		$classes = [
+			Gateway::class,
+			BankTransferGateway::class,
+			CreditCardGateway::class,
+			DirectDebitGateway::class,
+			IDealGateway::class,
+			BancontactGateway::class,
+			SofortGateway::class,
+		];
 
 		if ( PaymentMethods::is_active( PaymentMethods::PAYPAL ) ) {
-			$classes[] = 'PayPalGateway';
-		}
-
-		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
-			$classes[] = 'GuldenGateway';
+			$classes[] = PayPalGateway::class;
 		}
 
 		foreach ( $classes as $class ) {
-			$class = __NAMESPACE__ . '\\' . $class;
-
-			$id = (string) call_user_func( array( $class, 'get_gateway_id' ) );
-
-			if ( empty( $id ) ) {
-				continue;
-			}
+			$id = $class::get_gateway_id();
 
 			$gateways[ $id ] = $class;
 
 			// @link https://github.com/Charitable/Charitable/blob/1.1.4/includes/donations/class-charitable-donation-processor.php#L165-L174
 			// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-processor.php#L213-L247
-			add_filter( 'charitable_process_donation_' . $id, array( $class, 'process_donation' ), 10, 3 );
-
-			if ( Core_Util::class_method_exists( $class, 'form_gateway_fields' ) ) {
-				// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
-				add_filter( 'charitable_donation_form_gateway_fields', array( $class, 'form_gateway_fields' ), 10, 2 );
-			}
-
-			if ( Core_Util::class_method_exists( $class, 'form_field_template' ) ) {
-				// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/abstracts/class-charitable-form.php#L231-L232
-				add_filter( 'charitable_form_field_template', array( $class, 'form_field_template' ), 10, 4 );
-			}
+			\add_filter( 'charitable_process_donation_' . $id, [ $class, 'process_donation' ], 10, 3 );
 		}
 
 		return $gateways;
@@ -173,7 +230,7 @@ class Extension extends AbstractPluginIntegration {
 
 		switch ( $payment->get_status() ) {
 			case PaymentStatus::SUCCESS:
-				$url = charitable_get_permalink( 'donation_receipt_page', array( 'donation_id' => $donation_id ) );
+				$url = charitable_get_permalink( 'donation_receipt_page', [ 'donation_id' => $donation_id ] );
 
 				break;
 		}
@@ -220,40 +277,6 @@ class Extension extends AbstractPluginIntegration {
 
 				break;
 		}
-	}
-
-	/**
-	 * Filter currencies.
-	 *
-	 * @param array<string, string> $currencies Available currencies.
-	 * @return array<string, string>
-	 */
-	public function currencies( $currencies ) {
-		if ( ! is_array( $currencies ) ) {
-			return $currencies;
-		}
-
-		if ( PaymentMethods::is_active( PaymentMethods::GULDEN ) ) {
-			$currencies['NLG'] = PaymentMethods::get_name( PaymentMethods::GULDEN ) . ' (G)';
-		}
-
-		return $currencies;
-	}
-
-	/**
-	 * Filter currency symbol.
-	 *
-	 * @param string $symbol   Symbol.
-	 * @param string $currency Currency.
-	 *
-	 * @return string
-	 */
-	public function currency_symbol( $symbol, $currency ) {
-		if ( 'NLG' === $currency ) {
-			$symbol = 'G';
-		}
-
-		return $symbol;
 	}
 
 	/**
