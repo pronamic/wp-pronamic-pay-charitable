@@ -147,6 +147,7 @@ class Extension extends AbstractPluginIntegration {
 			return $template;
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $field['pronamic_pay_field'];
 
 		return false;
