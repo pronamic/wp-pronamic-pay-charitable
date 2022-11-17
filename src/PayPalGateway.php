@@ -37,28 +37,4 @@ class PayPalGateway extends Gateway {
 	 * @var string
 	 */
 	protected $payment_method = PaymentMethods::PAYPAL;
-
-	/**
-	 * Process donation.
-	 *
-	 * @since   2.3.0
-	 *
-	 * @param bool|array                    $return      Return.
-	 * @param int                           $donation_id Donation ID.
-	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
-	 * @return bool|array
-	 */
-	public static function process_donation( $return, $donation_id, $processor ) {
-		return self::pronamic_process_donation( $return, $donation_id, $processor, new self() );
-	}
-
-	/**
-	 * Returns the current gateway's ID.
-	 *
-	 * @return string
-	 * @since  2.3.0
-	 */
-	public static function get_gateway_id() {
-		return self::ID;
-	}
 }

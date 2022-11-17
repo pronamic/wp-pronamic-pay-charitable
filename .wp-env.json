@@ -1,0 +1,11 @@
+{
+	"core": null,
+	"plugins": [
+		".",
+		"../../../",
+		"https://downloads.wordpress.org/plugin/charitable.1.6.60.zip"
+	],
+	"config": {
+		"PRONAMIC_PAY_DEBUG": true
+	}
+}
