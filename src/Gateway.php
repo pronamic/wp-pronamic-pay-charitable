@@ -64,8 +64,6 @@ class Gateway extends Charitable_Gateway {
 
 		// @link https://github.com/Charitable/Charitable/blob/1.4.5/includes/gateways/class-charitable-gateway-paypal.php#L41-L44
 		$this->supports = [
-			'recurring',
-			// TODO:: 'recurring_cancellation',
 			'1.3.0',
 		];
 	}
@@ -166,12 +164,6 @@ class Gateway extends Charitable_Gateway {
 			return false;
 		}
 
-		$donation_period = $processor->get_donation_data_value( 'donation_period', false );
-		if ( ! empty( $donation_period ) && ! $gateway->supports( 'recurring' ) ) {
-			charitable_get_notices()->add_error( __( 'The selected payment gateway does not support recurring payments.  If you are a store owner, kindly choose another configuration.', 'knit-pay' ) );
-			return false;
-		}
-
 		// Data.
 		$user_data = $processor->get_donation_data_value( 'user' );
 
@@ -206,17 +198,6 @@ class Gateway extends Charitable_Gateway {
 
 		// Configuration.
 		$payment->config_id = $config_id;
-
-		// Subscription
-		$subscription                    = CharitableHelper::get_subscription( $processor, $payment->subscription_source_id, $payment->get_description(), $payment->get_total_amount() );
-		if ( isset( $subscription ) ) {
-			$period = $subscription->new_period();
-			if ( null !== $period ) {
-				$payment->add_period( $period );
-			}
-			$payment->subscription = $subscription;
-			$payment->subscription_source_id = $processor->get_donation_data_value( 'donation_plan' );
-		}
 
 		try {
 			$payment = Plugin::start_payment( $payment );

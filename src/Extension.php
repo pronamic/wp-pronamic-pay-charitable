@@ -165,9 +165,9 @@ class Extension extends AbstractPluginIntegration {
 	 */
 	public function charitable_payment_gateways( $gateways ) {
 		$classes = [
-			'Gateway',
-			'BankTransferGateway',
-			'CreditCardGateway',
+			Gateway::class,
+			BankTransferGateway::class,
+			CreditCardGateway::class,
 		];
 
 		if ( PaymentMethods::is_active( PaymentMethods::PAYPAL ) ) {
@@ -250,24 +250,9 @@ class Extension extends AbstractPluginIntegration {
 	public function status_update( Payment $payment ) {
 		$donation_id = $payment->get_source_id();
 
-		$donation = charitable_get_donation( $donation_id );
+		$donation = new Charitable_Donation( $donation_id );
 
-		// Return if donation not found.
-		if ( ! $donation ) {
-			return;
-		}
-
-		$is_first_donation  = true;
-		$recurring_donation = null;
-		if ( null !== $payment->get_subscription() ) {
-			$recurring_donation_id = $payment->get_subscription()->get_source_id();
-			$recurring_donation    = charitable_get_donation( $recurring_donation_id );
-
-			// Is this the first donation or a renewal.
-			$is_first_donation = 1 === count( $payment->get_subscription()->get_payments() ) ? true : false;
-		}
-
-		/* Save the transation ID */
+		/* Save the transaction ID */
 		$donation->set_gateway_transaction_id( $payment->get_transaction_id() );
 
 		switch ( $payment->get_status() ) {
@@ -284,7 +269,7 @@ class Extension extends AbstractPluginIntegration {
 
 				break;
 			case PaymentStatus::SUCCESS:
-				$this->process_success( $recurring_donation, $donation, $payment, $is_first_donation );
+				$donation->update_status( 'charitable-completed' );
 
 				break;
 			case PaymentStatus::OPEN:
@@ -293,36 +278,6 @@ class Extension extends AbstractPluginIntegration {
 
 				break;
 		}
-	}
-
-	private function process_success( $recurring_donation, $donation, Payment $payment, $is_first_donation ) {
-
-		// Mark first donataion as completed and update with transaction id meta.
-		if ( $is_first_donation ) {
-			$donation->set_gateway_transaction_id( $payment->get_transaction_id() );
-			$donation->update_status( 'charitable-completed' );
-
-			if ( ! isset( $recurring_donation ) ) {
-				return;
-			}
-
-			$recurring_donation->set_gateway_transaction_id( $payment->get_transaction_id() );
-		} else {
-			if ( ! isset( $recurring_donation ) ) {
-				return;
-			}
-
-			$renewal_id = $recurring_donation->create_renewal_donation( array( 'status' => 'charitable-completed' ) );
-			if ( $renewal_id && ! is_wp_error( $renewal_id ) ) {
-				$renewal = charitable_get_donation( $renewal_id );
-				$renewal->set_gateway_transaction_id( $payment->get_transaction_id() );
-			} else {
-				die( esc_html( 'Recurring Donation IPN Error: Renewal donation failed' ) );
-			}
-		}
-
-		// Renew the subscription.
-		$recurring_donation->renew();
 	}
 
 	/**

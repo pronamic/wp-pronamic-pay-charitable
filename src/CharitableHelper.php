@@ -15,9 +15,6 @@ use Charitable_Gateway;
 use Pronamic\WordPress\Pay\AddressHelper;
 use Pronamic\WordPress\Pay\ContactNameHelper;
 use Pronamic\WordPress\Pay\CustomerHelper;
-use Pronamic\WordPress\Pay\Subscriptions\Subscription;
-use Pronamic\WordPress\Pay\Subscriptions\SubscriptionInterval;
-use Pronamic\WordPress\Pay\Subscriptions\SubscriptionPhase;
 
 /**
  * Charitable Helper
@@ -147,86 +144,5 @@ class CharitableHelper {
 				'phone'        => self::get_value_from_user_data( $user_data, 'phone' ),
 			]
 		);
-	}
-
-	/**
-	 * Get subscription.
-	 *
-	 * @return Subscription|null
-	 */
-	public static function get_subscription( $processor, $subscription_source_id, $description, $amount ) {
-		if ( ! \class_exists( '\Charitable_Recurring' ) ) {
-			return null;
-		}
-
-		// Monthly, yearly etc
-		$donation_period = $processor->get_donation_data_value( 'donation_period', false );
-
-		$recurring_id = $subscription_source_id;
-
-		if ( empty( $donation_period ) || empty( $recurring_id ) ) {
-			return null;
-		}
-
-		// Number of payments
-		$donation_length = $processor->get_donation_data_value( 'donation_length', '' );
-		$donation_length = empty( $donation_length ) ? '5200' : $donation_length;
-
-		// duration between two $donation_period
-		$donation_interval = $processor->get_donation_data_value( 'donation_interval', 1 );
-		$recurring_key     = $processor->get_donation_data_value( 'recurring_donation_key' );
-		$donation_key      = $processor->get_donation_data_value( 'donation_key' );
-
-		// Convert period strings into  duration format.
-		// link: https://www.php.net/manual/en/dateinterval.construct.php
-		switch ( strtolower( $donation_period ) ) {
-			case 'day':
-				$donation_period = 'D';
-				$donation_length = min( $donation_length, '36500' );
-				break;
-			case 'week':
-				$donation_period = 'W';
-				$donation_length = min( $donation_length, '5200' );
-				break;
-			case 'quarter':
-				$donation_period   = 'M';
-				$donation_length   = min( $donation_length, '400' );
-				$donation_interval = $donation_interval * 3;
-				break;
-			case 'semiannual':
-				$donation_period   = 'M';
-				$donation_length   = min( $donation_length, '200' );
-				$donation_interval = $donation_interval * 6;
-				break;
-			case 'month':
-				$donation_period = 'M';
-				$donation_length = min( $donation_length, '1200' );
-				break;
-			case 'year':
-				$donation_period = 'Y';
-				$donation_length = min( $donation_length, '100' );
-				break;
-			default:
-				return null;
-		}
-
-		// Subscription.
-		$subscription = new Subscription();
-
-		$subscription->set_description( $description );
-
-		// Phase.
-		$phase = new SubscriptionPhase(
-			$subscription,
-			new \DateTimeImmutable(),
-			new SubscriptionInterval( 'P' . $donation_interval . $donation_period ),
-			$amount
-		);
-
-		$phase->set_total_periods( intval( $donation_length ) );
-
-		$subscription->add_phase( $phase );
-
-		return $subscription;
 	}
 }
