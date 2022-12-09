@@ -16,7 +16,7 @@
  *
  * License: GPL-3.0-or-later
  *
- * Requires Plugins: pronamic-ideal
+ * Requires Plugins: pronamic-ideal, charitable
  * Depends: wp-pay/core
  *
  * GitHub URI: https://github.com/pronamic/wp-pronamic-pay-charitable
