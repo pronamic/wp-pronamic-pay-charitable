@@ -112,7 +112,7 @@ class Gateway extends Charitable_Gateway {
 
 	/**
 	 * Get Pronamic gateway configuration ID.
-	 * 
+	 *
 	 * @return int|null
 	 */
 	public function get_pronamic_config_id() {
