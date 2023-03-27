@@ -7,6 +7,18 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.2] - 2023-03-27
+
+### Commits
+
+- Set Composer type to WordPress plugin. ([d2ead3b](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/d2ead3b557119c7149a30d3c372bcab84c162e13))
+- Updated .gitattributes ([63547ca](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/63547ca2fa2773989c76dfdab694191e263107d8))
+- Requires PHP: 7.4. ([24c06d5](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/24c06d5a98fbbcedf0eb049903777b5907d91a94))
+
+Full set of changes: [`4.3.1...4.3.2`][4.3.2]
+
+[4.3.2]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/v4.3.1...v4.3.2
+
 ## [4.3.1] - 2023-01-31
 ### Composer
 
