@@ -11,6 +11,7 @@
 namespace Pronamic\WordPress\Pay\Extensions\Charitable;
 
 use Charitable_Donation;
+use Charitable_Gateway;
 use Pronamic\WordPress\Pay\AbstractPluginIntegration;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
@@ -85,10 +86,10 @@ class Extension extends AbstractPluginIntegration {
 	 * @see   https://github.com/Charitable/Charitable/blob/1.4.5/includes/donations/class-charitable-donation-form.php#L387
 	 * @since 1.0.2
 	 *
-	 * @param array              $fields  Fields.
-	 * @param Charitable_Gateway $gateway Gateway.
+	 * @param array<int|string, mixed> $fields             Fields.
+	 * @param Charitable_Gateway      $charitable_gateway Gateway.
 	 *
-	 * @return array
+	 * @return array<int|string, mixed>
 	 */
 	public static function form_gateway_fields( $fields, $charitable_gateway ) {
 		if ( ! $charitable_gateway instanceof Gateway ) {
@@ -97,13 +98,13 @@ class Extension extends AbstractPluginIntegration {
 
 		$config_id = $charitable_gateway->get_pronamic_config_id();
 
-		$gateway = Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( (int) $config_id );
 
 		if ( null === $gateway ) {
 			return $fields;
 		}
 
-		$payment_method = $gateway->get_payment_method( $charitable_gateway->get_pronamic_payment_method() );
+		$payment_method = $gateway->get_payment_method( (string) $charitable_gateway->get_pronamic_payment_method() );
 
 		if ( null === $payment_method ) {
 			return $fields;
@@ -202,7 +203,7 @@ class Extension extends AbstractPluginIntegration {
 
 		$campaign = reset( $donations );
 
-		if ( false !== $campaign ) {
+		if ( false !== $campaign && \property_exists( $campaign, 'campaign_id' ) ) {
 			$permalink = get_permalink( $campaign->campaign_id );
 
 			if ( false !== $permalink ) {
@@ -230,7 +231,16 @@ class Extension extends AbstractPluginIntegration {
 
 		switch ( $payment->get_status() ) {
 			case PaymentStatus::SUCCESS:
-				$url = charitable_get_permalink( 'donation_receipt_page', [ 'donation_id' => $donation_id ] );
+				$permalink = charitable_get_permalink(
+					'donation_receipt_page',
+					[
+						'donation_id' => $donation_id,
+					]
+				);
+
+				if ( false !== $permalink ) {
+					$url = $permalink;
+				}
 
 				break;
 		}
@@ -252,7 +262,11 @@ class Extension extends AbstractPluginIntegration {
 		$donation = new Charitable_Donation( $donation_id );
 
 		/* Save the transaction ID */
-		$donation->set_gateway_transaction_id( $payment->get_transaction_id() );
+		$transaction_id = $payment->get_transaction_id();
+
+		if ( ! empty( $transaction_id ) ) {
+			$donation->set_gateway_transaction_id( $transaction_id );
+		}
 
 		switch ( $payment->get_status() ) {
 			case PaymentStatus::CANCELLED:
@@ -260,9 +274,6 @@ class Extension extends AbstractPluginIntegration {
 
 				break;
 			case PaymentStatus::EXPIRED:
-				$donation->update_status( 'charitable-failed' );
-
-				break;
 			case PaymentStatus::FAILURE:
 				$donation->update_status( 'charitable-failed' );
 

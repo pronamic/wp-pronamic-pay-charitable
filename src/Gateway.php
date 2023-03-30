@@ -39,7 +39,7 @@ class Gateway extends Charitable_Gateway {
 	/**
 	 * The payment method
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $payment_method;
 
@@ -71,9 +71,9 @@ class Gateway extends Charitable_Gateway {
 	/**
 	 * Register gateway settings.
 	 *
-	 * @param   array $settings
+	 * @param   array<string, mixed> $settings Settings.
 	 *
-	 * @return  array
+	 * @return  array<string, mixed>
 	 * @since   1.0.0
 	 */
 	public function gateway_settings( $settings ) {
@@ -106,6 +106,11 @@ class Gateway extends Charitable_Gateway {
 		return $settings;
 	}
 
+	/**
+	 * Get Pronamic payment method.
+	 *
+	 * @return string|null
+	 */
 	public function get_pronamic_payment_method() {
 		return $this->payment_method;
 	}
@@ -116,26 +121,23 @@ class Gateway extends Charitable_Gateway {
 	 * @return int|null
 	 */
 	public function get_pronamic_config_id() {
-		$config_id = $this->get_value( 'config_id' );
+		$config_id = intval( $this->get_value( 'config_id' ) );
 
 		// Use default gateway if no configuration has been set.
 		if ( empty( $config_id ) ) {
-			$config_id = \get_option( 'pronamic_pay_config_id' );
+			$config_id = intval( \get_option( 'pronamic_pay_config_id' ) );
 		}
 
-		return $config_id;
+		return empty( $config_id ) ? null : $config_id;
 	}
 
 	/**
 	 * Process donation.
 	 *
-	 * @since   1.1.1
-	 *
-	 * @param bool|array                    $return      Return.
+	 * @param mixed                         $return      Return.
 	 * @param int                           $donation_id Donation ID.
 	 * @param Charitable_Donation_Processor $processor   Charitable donation processor.
-	 *
-	 * @return bool|array
+	 * @return bool|array<string,mixed>
 	 */
 	public static function process_donation( $return, $donation_id, $processor ) {
 		return self::pronamic_process_donation( $return, $donation_id, $processor, new static() );
@@ -144,21 +146,19 @@ class Gateway extends Charitable_Gateway {
 	/**
 	 * Process donation.
 	 *
-	 * @since   1.0.0
+	 * @param mixed                         $return             Return.
+	 * @param int                           $donation_id        Donation ID.
+	 * @param Charitable_Donation_Processor $processor          Charitable donation processor.
+	 * @param Gateway                       $charitable_gateway Charitable gateway.
 	 *
-	 * @param   bool|array                    $return             Return.
-	 * @param   int                           $donation_id        Donation ID.
-	 * @param   Charitable_Donation_Processor $processor          Charitable donation processor.
-	 * @param   Charitable_Gateway            $charitable_gateway Charitable gateway.
-	 *
-	 * @return bool|array
+	 * @return bool|array<string,mixed>
 	 */
-	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Charitable_Gateway $charitable_gateway ) {
+	public static function pronamic_process_donation( $return, $donation_id, Charitable_Donation_Processor $processor, Gateway $charitable_gateway ) {
 		$payment_method = $charitable_gateway->payment_method;
 
 		$config_id = $charitable_gateway->get_pronamic_config_id();
 
-		$gateway = Plugin::get_gateway( $config_id );
+		$gateway = Plugin::get_gateway( (int) $config_id );
 
 		if ( ! $gateway ) {
 			return false;
