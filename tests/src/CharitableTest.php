@@ -7,7 +7,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * Title: WordPress pay Charitable test
  * Description:
- * Copyright: 2005-2022 Pronamic
+ * Copyright: 2005-2023 Pronamic
  * Company: Pronamic
  *
  * @author  Remco Tolsma
