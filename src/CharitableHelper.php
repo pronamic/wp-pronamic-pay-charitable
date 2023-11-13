@@ -45,7 +45,7 @@ class CharitableHelper {
 	 * @return string
 	 */
 	public static function get_description( $gateway, $donation_id ) {
-		$description = $gateway->get_value( 'transaction_description' );
+		$description = strval( $gateway->get_value( 'transaction_description' ) );
 		$donation    = new Charitable_Donation( $donation_id );
 
 		if ( '' === $description ) {
@@ -74,7 +74,9 @@ class CharitableHelper {
 	public static function get_total_amount_value( $donation_id ) {
 		$donation = new Charitable_Donation( $donation_id );
 
-		return $donation->get_total_donation_amount( true );
+		$amount = $donation->get_total_donation_amount( true );
+
+		return (float) $amount;
 	}
 
 	/**
@@ -82,7 +84,7 @@ class CharitableHelper {
 	 *
 	 * @param array<string, mixed> $user_data User data.
 	 * @param string               $key       Array key.
-	 * @return null|string
+	 * @return mixed
 	 */
 	public static function get_value_from_user_data( $user_data, $key ) {
 		if ( ! array_key_exists( $key, $user_data ) ) {
