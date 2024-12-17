@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.4] - 2024-12-17
+
+### Commits
+
+- Allow automattic/jetpack-autoloader Composer plugin. ([5b4460f](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/5b4460f8ac57d69a3981412867df266c0ff57114))
+- Happy 2024. ([1398f57](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/1398f57fa132f8f3634cf719f8188de149f0c1db))
+
+Full set of changes: [`4.3.3...4.3.4`][4.3.4]
+
+[4.3.4]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/v4.3.3...v4.3.4
+
 ## [4.3.3] - 2023-06-01
 
 ### Commits
