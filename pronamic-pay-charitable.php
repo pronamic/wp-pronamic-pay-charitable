@@ -4,7 +4,7 @@
  * Plugin URI: https://www.pronamic.eu/plugins/pronamic-pay-charitable/
  * Description: Extend the Pronamic Pay plugin with Charitable support to receive payments through a variety of payment providers.
  *
- * Version: 4.3.4
+ * Version: 4.3.5
  * Requires at least: 4.7
  * Requires PHP: 7.4
  *
