@@ -74,7 +74,7 @@ class CharitableHelper {
 	public static function get_total_amount_value( $donation_id ) {
 		$donation = new Charitable_Donation( $donation_id );
 
-		$amount = $donation->get_total_donation_amount( true );
+		$amount = $donation->get_total();
 
 		return (float) $amount;
 	}
