@@ -67,7 +67,6 @@ class CharitableHelper {
 	/**
 	 * Get total amount value.
 	 *
-	 * @link https://github.com/Charitable/Charitable/blob/1.6.46/includes/abstracts/abstract-class-charitable-abstract-donation.php#L271-L287
 	 * @param int $donation_id Donation ID.
 	 * @return float
 	 */
