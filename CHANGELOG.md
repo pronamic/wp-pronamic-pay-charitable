@@ -7,6 +7,21 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.6] - 2026-05-26
+
+### Commits
+
+- Use `Charitable_Donation::get_total()` for donation amounts so Fee Relief and related extensions are reflected in the payment total. ([339f954](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/339f954f5a3759793e8b9d65c6ba4c6f65e8d033))
+- Document why `get_total()` is required and link to Charitable references and implementation details. ([339f954](https://github.com/pronamic/wp-pronamic-pay-charitable/commit/339f954f5a3759793e8b9d65c6ba4c6f65e8d033))
+
+### Composer
+
+- No Composer dependency version changes (`composer.lock` is unchanged since `v4.3.5`).
+
+Full set of changes: [`4.3.5...4.3.6`][4.3.6]
+
+[4.3.6]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/v4.3.5...v4.3.6
+
 ## [4.3.5] - 2025-11-11
 
 ### Commits
@@ -187,7 +202,7 @@ Full set of changes: [`4.2.1...4.3.0`][4.3.0]
 ## 1.0.0 - 2015-11-05
 - First release.
 
-[unreleased]: https://github.com/wp-pay-extensions/charitable/compare/4.2.1...HEAD
+[unreleased]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/v4.3.6...HEAD
 [4.2.1]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/4.2.0...4.2.1
 [4.2.0]: https://github.com/pronamic/wp-pronamic-pay-charitable/compare/4.1.0...4.2.0
 [4.1.0]: https://github.com/wp-pay-extensions/charitable/compare/4.0.0...4.1.0
