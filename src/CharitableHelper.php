@@ -67,14 +67,31 @@ class CharitableHelper {
 	/**
 	 * Get total amount value.
 	 *
-	 * @link https://github.com/Charitable/Charitable/blob/1.6.46/includes/abstracts/abstract-class-charitable-abstract-donation.php#L271-L287
+	 * In Pronamic Pay Charitable version <= 4.3.5 we used
+	 * `$donation->get_total_donation_amount( true )`.
+	 *
+	 * After that we use `$donation->get_total()`, available since
+	 * Charitable version 1.6.54.
+	 *
+	 * This change specifically resolves an issue where an inaccurate amount
+	 * was passed while using the Fee Relief plugin.
+	 *
+	 * Charitable documents for `get_total()`:
+	 * "Without any extensions, this will always be the same as the total.
+	 * However, if Gift Aid or Fee Relief are used, the total donation may be
+	 * greater than the subtotal."
+	 *
+	 * @link https://plugins.trac.wordpress.org/browser/charitable/tags/1.6.46/includes/abstracts/abstract-class-charitable-abstract-donation.php#L271
+	 * @link https://plugins.trac.wordpress.org/browser/charitable/tags/1.8.11.1/includes/abstracts/abstract-class-charitable-abstract-donation.php#L315
+	 * @link https://github.com/pronamic/wp-pronamic-pay-charitable/pull/7
+	 *
 	 * @param int $donation_id Donation ID.
 	 * @return float
 	 */
 	public static function get_total_amount_value( $donation_id ) {
 		$donation = new Charitable_Donation( $donation_id );
 
-		$amount = $donation->get_total_donation_amount( true );
+		$amount = $donation->get_total();
 
 		return (float) $amount;
 	}
